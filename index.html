@@ -1,496 +1,398 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 교육 통합 스케줄러</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Noto Sans KR', 'Inter', sans-serif; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5월 신규 재가장애인 소개 발표</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Swiper.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  
+  <!-- Google Fonts - Pretendard -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f4f8',
+              100: '#dbe9f4',
+              200: '#b0cbdf',
+              300: '#79a6c5',
+              400: '#487ea3',
+              500: '#2b5f84',
+              600: '#1e4869',
+              700: '#163651',
+              800: '#0f2438',
+              900: '#091522',
+              950: '#050a12',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background-color: #091522;
+      overflow: hidden;
+    }
+    .swiper {
+      width: 100%;
+      height: 100vh;
+    }
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(15, 36, 56, 0.5);
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(121, 166, 197, 0.4);
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(121, 166, 197, 0.6);
+    }
+  </style>
 </head>
-<body class="bg-slate-50 min-h-screen text-slate-900">
-    <div class="max-w-7xl mx-auto p-4 md:p-8">
-        <!-- Header -->
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
-            <div class="flex items-center gap-4">
-                <div class="bg-indigo-600 p-3 rounded-2xl shadow-indigo-200 shadow-lg text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                </div>
-                <div>
-                    <h1 class="text-3xl font-black text-slate-800 tracking-tight">2026 교육 통합 스케줄러</h1>
-                    <p class="text-slate-500 font-medium flex items-center gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                        팀별 컬러 가이드를 통해 일정을 한눈에 파악하세요.
-                    </p>
-                </div>
-            </div>
+<body class="text-slate-100 selection:bg-brand-500 selection:text-white">
 
-            <div class="flex bg-white p-1.5 rounded-xl shadow-sm border border-slate-200" id="viewToggle">
-                <button onclick="changeView('monthly')" id="btnMonthly" class="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all bg-slate-800 text-white shadow-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    월간 캘린더
-                </button>
-                <button onclick="changeView('yearly')" id="btnYearly" class="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all text-slate-500 hover:bg-slate-50">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                    연간 현황
-                </button>
-            </div>
-        </header>
-
-        <!-- Legend & Filters -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
-            <div class="lg:col-span-3 bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
-                <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">팀별 색상 가이드</h3>
-                <div class="flex flex-wrap gap-4" id="teamLegend">
-                    <!-- Legend items will be inserted here -->
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-center">
-                <label class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                    참여자 필터
-                </label>
-                <select id="filterName" onchange="updateFilter(this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-400 appearance-none pointer-events-auto">
-                    <option value="all">전체 참여자</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Monthly View Container -->
-        <div id="monthlyView" class="block animate-in fade-in zoom-in-95">
-            <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
-                <div class="flex justify-between items-center p-8 bg-slate-50/50 border-b border-slate-100">
-                    <button onclick="prevMonth()" class="p-3 hover:bg-white rounded-2xl border border-slate-200 transition-all shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                    </button>
-                    <div class="text-center">
-                        <span id="displayYear" class="text-sm font-black text-indigo-600 uppercase tracking-widest">2026</span>
-                        <h2 id="displayMonth" class="text-3xl font-black text-slate-800">4월</h2>
-                    </div>
-                    <button onclick="nextMonth()" class="p-3 hover:bg-white rounded-2xl border border-slate-200 transition-all shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                    </button>
-                </div>
-
-                <div class="grid grid-cols-7 bg-slate-100/30 border-b border-slate-100">
-                    <div class="py-4 text-center text-[10px] font-black uppercase tracking-tighter text-rose-500">일</div>
-                    <div class="py-4 text-center text-[10px] font-black uppercase tracking-tighter text-slate-400">월</div>
-                    <div class="py-4 text-center text-[10px] font-black uppercase tracking-tighter text-slate-400">화</div>
-                    <div class="py-4 text-center text-[10px] font-black uppercase tracking-tighter text-slate-400">수</div>
-                    <div class="py-4 text-center text-[10px] font-black uppercase tracking-tighter text-slate-400">목</div>
-                    <div class="py-4 text-center text-[10px] font-black uppercase tracking-tighter text-slate-400">금</div>
-                    <div class="py-4 text-center text-[10px] font-black uppercase tracking-tighter text-indigo-500">토</div>
-                </div>
-
-                <div id="calendarGrid" class="grid grid-cols-7">
-                    <!-- Calendar days will be inserted here -->
-                </div>
-                
-                <div class="p-8 bg-slate-50/50 border-t border-slate-100">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-lg font-black text-slate-800 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="text-indigo-600" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                            이번 달 전체 일정 리스트
-                        </h3>
-                        <span id="monthlyCount" class="text-xs font-bold text-slate-400">총 0건</span>
-                    </div>
-                    
-                    <div id="monthlyList" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                        <!-- List items will be inserted here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Yearly View Container -->
-        <div id="yearlyView" class="hidden animate-in fade-in zoom-in-95">
-            <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-8">
-                <div class="flex items-center gap-2 mb-8">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="text-indigo-600" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                    <h2 class="text-2xl font-black text-slate-800">2026 연간 로드맵</h2>
-                </div>
-                <div id="yearlyGrid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    <!-- Months will be inserted here -->
-                </div>
-            </div>
-        </div>
+  <!-- 메인 스와이프 컨테이너 -->
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper" id="slideContainer">
+      <!-- JavaScript에서 동적으로 생성됨 -->
     </div>
+    
+    <!-- 하단 글로벌 컨트롤 바 -->
+    <div class="absolute bottom-0 left-0 right-0 z-30 bg-brand-950/90 border-t border-brand-800/80 px-6 py-4 flex justify-between items-center backdrop-blur-md">
+      <div class="hidden sm:flex items-center space-x-3 text-xs md:text-sm text-brand-300">
+        <span class="flex h-2.5 w-2.5 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+        </span>
+        <span class="font-semibold tracking-wider text-brand-200">순창군장애인복지관 사례 발표</span>
+        <span class="text-brand-600">|</span>
+        <span class="flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+          실무자 배포용
+        </span>
+      </div>
 
-    <script>
-        const rawData = [
-            {
-                "해당하는 팀을 선택해주십시오.(*)": "자립생활팀",
-                "이름을 입력하여주십시오.": "강주연",
-                "① 사람중심·사회모델·지역사회접근 실천 총론 (1h 30m)": "2026-04-28 16:00",
-                "① 발달장애인 지원을 둘러싼 다양한 쟁점 이해 (1h 20m)": "2026-04-29 15:30",
-                "② 강점, 주도성, 관계를 잇는 살마중심의 개인별 지원계획 (1h 20m)": "2026-04-29 17:00",
-                "① 그룹치료·그룹교육·그룹 디지털 치료의 적용과 실체 (1h 30m)": "2026-05-12 15:30",
-                "② 지역사회에서 진행되는 치료, 교육, 코칭 프로그램 (1h 10m)": "2026-05-12 17:00",
-                "① 낮 활동과 행동지원 (1h 30m)": "2026-05-13 15:30",
-                "② 광주광역시 최중증 발달장애인 융합돌봄사업 (1h 20m)": "2026-05-13 17:00",
-                "③ 서울시 최중증 성인발달장애인 낮 활동 지원 챌린지2 (1h 20m)": "2026-05-26 15:30",
-                "① 장애인복지관 직업재활(지원)사업의 방향성 (1h)": "2026-05-26 17:00",
-                "② 지역사회 중심 장애인복지관 직업지원 (1h 30m)": "2026-05-27 15:30",
-                "③ 인공지능 발전과 장애인복지관 직업지원 (1h 10m)": "2026-05-27 17:00",
-                "① 가족지원에 대한 이해 (1h 40m)": "2026-07-21 15:30",
-                "② 가족의 강점을 살리는 장애인복지관의 가족지원사업 (1h 30m)": "2026-07-21 17:00",
-                "③ 장애인가족 중심의 지원을 도모하는 거점장애인복지관 운영 (1h 10m)": "2026-07-22 15:30",
-                "① 권익옹호의 개념과 실천방법 (1h)": "2026-07-22 17:00",
-                "② 장애인복지관에서의 독립적 권익옹호 (1h 10m)": "2026-08-11 15:30",
-                "③ 장애인복지관의 사례관리 (1h 20m)": "2026-08-11 17:00",
-                "① 자산기반접근과 지역사회중심 지원서비스 (1h)": "2026-08-12 15:30",
-                "② 관계를 살리는 지역기반 활동 CBSS 실천 (1h 50m)": "2026-08-12 17:00",
-                "③ 농산어촌장애인복지관과 사람중심 지역사회 서비스 실천사례 (1h 20m)": "2026-08-25 15:30"
-            },
-            {
-                "해당하는 팀을 선택해주십시오.(*)": "우리동네사례관리팀",
-                "이름을 입력하여주십시오.": "박슬기",
-                "① 사람중심·사회모델·지역사회접근 실천 총론 (1h 30m)": "2026-04-24 16:00",
-                "② 강점, 주도성, 관계를 잇는 살마중심의 개인별 지원계획 (1h 20m)": "2026-05-29 16:00",
-                "② 지역사회에서 진행되는 치료, 교육, 코칭 프로그램 (1h 10m)": "2026-05-08 16:00",
-                "③ 장애인복지관의 사례관리 (1h 20m)": "2026-05-15 16:00",
-                "③ 농산어촌장애인복지관과 사람중심 지역사회 서비스 실천사례 (1h 20m)": "2026-05-22 16:00"
-            },
-            {
-                "해당하는 팀을 선택해주십시오.(*)": "평생교육팀",
-                "이름을 입력하여주십시오.": "서해숙",
-                "① 사람중심·사회모델·지역사회접근 실천 총론 (1h 30m)": "2026-04-24 10:00",
-                "① 발달장애인 지원을 둘러싼 다양한 쟁점 이해 (1h 20m)": "2026-05-21 16:00",
-                "② 강점, 주도성, 관계를 잇는 살마중심의 개인별 지원계획 (1h 20m)": "2026-05-29 16:00",
-                "① 그룹치료·그룹교육·그룹 디지털 치료의 적용과 실체 (1h 30m)": "2026-06-12 16:00",
-                "② 지역사회에서 진행되는 치료, 교육, 코칭 프로그램 (1h 10m)": "2026-06-26 16:00",
-                "① 낮 활동과 행동지원 (1h 30m)": "2026-07-13 16:00",
-                "② 광주광역시 최중증 발달장애인 융합돌봄사업 (1h 20m)": "2026-07-24 16:00",
-                "③ 서울시 최중증 성인발달장애인 낮 활동 지원 챌린지2 (1h 20m)": "2026-07-31 16:00",
-                "① 가족지원에 대한 이해 (1h 40m)": "2026-09-14 16:00",
-                "② 가족의 강점을 살리는 장애인복지관의 가족지원사업 (1h 30m)": "2026-09-28 16:00",
-                "③ 장애인가족 중심의 지원을 도모하는 거점장애인복지관 운영 (1h 10m)": "2026-10-05 16:00",
-                "① 권익옹호의 개념과 실천방법 (1h)": "2026-10-09 16:00",
-                "② 장애인복지관에서의 독립적 권익옹호 (1h 10m)": "2026-10-16 16:00",
-                "③ 장애인복지관의 사례관리 (1h 20m)": "2026-10-19 16:00",
-                "③ 농산어촌장애인복지관과 사람중심 지역사회 서비스 실천사례 (1h 20m)": "2026-10-23 16:00"
-            },
-            {
-                "해당하는 팀을 선택해주십시오.(*)": "평생교육팀",
-                "이름을 입력하여주십시오.": "양주봉",
-                "① 사람중심·사회모델·지역사회접근 실천 총론 (1h 30m)": "2026-07-06 16:00",
-                "① 발달장애인 지원을 둘러싼 다양한 쟁점 이해 (1h 20m)": "2026-07-07 16:00",
-                "② 강점, 주도성, 관계를 잇는 살마중심의 개인별 지원계획 (1h 20m)": "2026-07-13 16:00",
-                "① 그룹치료·그룹교육·그룹 디지털 치료의 적용과 실체 (1h 30m)": "2026-07-20 16:00",
-                "② 지역사회에서 진행되는 치료, 교육, 코칭 프로그램 (1h 10m)": "2026-07-21 16:00",
-                "① 낮 활동과 행동지원 (1h 30m)": "2026-07-27 16:00",
-                "② 광주광역시 최중증 발달장애인 융합돌봄사업 (1h 20m)": "2026-07-28 16:00",
-                "③ 서울시 최중증 성인발달장애인 낮 활동 지원 챌린지2 (1h 20m)": "2026-08-03 16:00",
-                "① 장애인복지관 직업재활(지원)사업의 방향성 (1h)": "2026-08-04 16:00",
-                "② 지역사회 중심 장애인복지관 직업지원 (1h 30m)": "2026-08-10 16:00",
-                "③ 인공지능 발전과 장애인복지관 직업지원 (1h 10m)": "2026-08-11 16:00",
-                "① 가족지원에 대한 이해 (1h 40m)": "2026-08-17 16:00",
-                "② 가족의 강점을 살리는 장애인복지관의 가족지원사업 (1h 30m)": "2026-08-18 16:00",
-                "③ 장애인가족 중심의 지원을 도모하는 거점장애인복지관 운영 (1h 10m)": "2026-08-24 16:00",
-                "① 권익옹호의 개념과 실천방법 (1h)": "2026-08-25 16:00",
-                "② 장애인복지관에서의 독립적 권익옹호 (1h 10m)": "2026-08-31 16:00",
-                "③ 장애인복지관의 사례관리 (1h 20m)": "2026-09-07 16:00",
-                "① 자산기반접근과 지역사회중심 지원서비스 (1h)": "2026-09-08 16:00",
-                "② 관계를 살리는 지역기반 활동 CBSS 실천 (1h 50m)": "2026-09-14 16:00",
-                "③ 농산어촌장애인복지관과 사람중심 지역사회 서비스 실천사례 (1h 20m)": "2026-09-15 16:00"
-            },
-            {
-                "해당하는 팀을 선택해주십시오.(*)": "우리동네사례관리팀",
-                "이름을 입력하여주십시오.": "김선희",
-                "① 사람중심·사회모델·지역사회접근 실천 총론 (1h 30m)": "2026-05-14 09:00",
-                "① 발달장애인 지원을 둘러싼 다양한 쟁점 이해 (1h 20m)": "2026-05-21 09:00",
-                "② 강점, 주도성, 관계를 잇는 살마중심의 개인별 지원계획 (1h 20m)": "2026-05-21 10:20",
-                "① 그룹치료·그룹교육·그룹 디지털 치료의 적용과 실체 (1h 30m)": "2026-05-28 09:00",
-                "② 지역사회에서 진행되는 치료, 교육, 코칭 프로그램 (1h 10m)": "2026-05-28 10:30",
-                "① 낮 활동과 행동지원 (1h 30m)": "2026-06-04 09:00",
-                "② 광주광역시 최중증 발달장애인 융합돌봄사업 (1h 20m)": "2026-06-04 10:20",
-                "③ 서울시 최중증 성인발달장애인 낮 활동 지원 챌린지2 (1h 20m)": "2026-06-11 09:00",
-                "① 장애인복지관 직업재활(지원)사업의 방향성 (1h)": "2026-06-11 10:20",
-                "② 지역사회 중심 장애인복지관 직업지원 (1h 30m)": "2026-06-18 09:00",
-                "③ 인공지능 발전과 장애인복지관 직업지원 (1h 10m)": "2026-06-18 10:30",
-                "① 가족지원에 대한 이해 (1h 40m)": "2026-04-30 10:20",
-                "② 가족의 강점을 살리는 장애인복지관의 가족지원사업 (1h 30m)": "2026-05-07 09:00",
-                "③ 장애인가족 중심의 지원을 도모하는 거점장애인복지관 운영 (1h 10m)": "2026-05-07 10:30",
-                "① 권익옹호의 개념과 실천방법 (1h)": "2026-04-23 09:00",
-                "② 장애인복지관에서의 독립적 권익옹호 (1h 10m)": "2026-04-23 10:00",
-                "③ 장애인복지관의 사례관리 (1h 20m)": "2026-04-30 09:00",
-                "① 자산기반접근과 지역사회중심 지원서비스 (1h)": "2026-06-25 09:00",
-                "② 관계를 살리는 지역기반 활동 CBSS 실천 (1h 50m)": "2026-06-25 10:00",
-                "③ 농산어촌장애인복지관과 사람중심 지역사회 서비스 실천사례 (1h 20m)": "2026-07-02 09:00"
-            },
-            {
-                "해당하는 팀을 선택해주십시오.(*)": "우리동네사례관리팀",
-                "이름을 입력하여주십시오.": "이윤수",
-                "① 사람중심·사회모델·지역사회접근 실천 총론 (1h 30m)": "2026-04-23 10:00",
-                "① 그룹치료·그룹교육·그룹 디지털 치료의 적용과 실체 (1h 30m)": "2026-04-30 10:00",
-                "② 지역사회에서 진행되는 치료, 교육, 코칭 프로그램 (1h 10m)": "2026-05-07 10:00",
-                "① 장애인복지관 직업재활(지원)사업의 방향성 (1h)": "2026-05-14 10:00",
-                "② 지역사회 중심 장애인복지관 직업지원 (1h 30m)": "2026-05-21 10:00"
-            },
-            {
-                "해당하는 팀을 선택해주십시오.(*)": "경영지원팀",
-                "이름을 입력하여주십시오.": "이활",
-                "① 사람중심·사회모델·지역사회접근 실천 총론 (1h 30m)": "2026-04-24 15:00",
-                "① 발달장애인 지원을 둘러싼 다양한 쟁점 이해 (1h 20m)": "2026-05-08 15:00",
-                "② 강점, 주도성, 관계를 잇는 살마중심의 개인별 지원계획 (1h 20m)": "2026-05-15 15:00",
-                "① 그룹치료·그룹교육·그룹 디지털 치료의 적용과 실체 (1h 30m)": "2026-05-22 15:00",
-                "② 지역사회에서 진행되는 치료, 교육, 코칭 프로그램 (1h 10m)": "2026-05-29 15:00",
-                "① 낮 활동과 행동지원 (1h 30m)": "2026-06-05 15:00",
-                "② 광주광역시 최중증 발달장애인 융합돌봄사업 (1h 20m)": "2026-06-19 15:00",
-                "③ 서울시 최중증 성인발달장애인 낮 활동 지원 챌린지2 (1h 20m)": "2026-06-26 15:00",
-                "① 장애인복지관 직업재활(지원)사업의 방향성 (1h)": "2026-07-03 15:00",
-                "② 지역사회 중심 장애인복지관 직업지원 (1h 30m)": "2026-07-10 15:00",
-                "③ 인공지능 발전과 장애인복지관 직업지원 (1h 10m)": "2026-07-17 15:00",
-                "① 가족지원에 대한 이해 (1h 40m)": "2026-07-31 15:00",
-                "② 가족의 강점을 살리는 장애인복지관의 가족지원사업 (1h 30m)": "2026-08-07 15:00",
-                "③ 장애인가족 중심의 지원을 도모하는 거점장애인복지관 운영 (1h 10m)": "2026-08-14 15:00",
-                "① 권익옹호의 개념과 실천방법 (1h)": "2026-08-21 15:00",
-                "② 장애인복지관에서의 독립적 권익옹호 (1h 10m)": "2026-08-28 15:00",
-                "③ 장애인복지관의 사례관리 (1h 20m)": "2026-09-04 15:00",
-                "① 자산기반접근과 지역사회중심 지원서비스 (1h)": "2026-09-11 15:00",
-                "② 관계를 살리는 지역기반 활동 CBSS 실천 (1h 50m)": "2026-09-18 15:00",
-                "③ 농산어촌장애인복지관과 사람중심 지역사회 서비스 실천사례 (1h 20m)": "2026-10-02 15:00"
-            }
-        ];
+      <div class="flex items-center space-x-6 mx-auto sm:mx-0">
+        <button id="prevBtn" class="p-2 rounded-xl bg-brand-900 border border-brand-700/60 hover:bg-brand-800 text-brand-200 hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-md">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
 
-        const teamColorMap = {
-            "자립생활팀": { bg: "bg-emerald-100", text: "text-emerald-800", border: "border-emerald-500", dot: "bg-emerald-500" },
-            "우리동네사례관리팀": { bg: "bg-amber-100", text: "text-amber-800", border: "border-amber-500", dot: "bg-amber-500" },
-            "평생교육팀": { bg: "bg-violet-100", text: "text-violet-800", border: "border-violet-500", dot: "bg-violet-500" },
-            "경영지원팀": { bg: "bg-rose-100", text: "text-rose-800", border: "border-rose-500", dot: "bg-rose-500" },
-            "default": { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-500", dot: "bg-slate-500" }
-        };
+        <div class="text-center font-semibold text-lg tracking-widest text-brand-100 min-w-[70px]">
+          <span id="currentNumber" class="text-2xl text-blue-400">1</span>
+          <span class="text-brand-600 mx-1">/</span>
+          <span id="totalNumber" class="text-brand-400">-</span>
+        </div>
 
-        let viewMode = 'monthly';
-        let currentDate = new Date(2026, 3, 1); // 4월부터 데이터 시작
-        let filterName = 'all';
+        <button id="nextBtn" class="p-2 rounded-xl bg-brand-900 border border-brand-700/60 hover:bg-brand-800 text-brand-200 hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-md">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
 
-        // Process data into a flat list of events
-        const events = [];
-        const participantNames = new Set();
-        rawData.forEach(person => {
-            const team = person["해당하는 팀을 선택해주십시오.(*)"];
-            const name = person["이름을 입력하여주십시오."];
-            participantNames.add(name);
-            const colors = teamColorMap[team] || teamColorMap.default;
-            
-            Object.keys(person).forEach(key => {
-                if (key.includes('①') || key.includes('②') || key.includes('③')) {
-                    const dateValue = person[key];
-                    if (dateValue && dateValue.trim() !== "") {
-                        const [dateStr, timeStr] = dateValue.split(' ');
-                        events.push({
-                            id: `${name}-${key}-${dateValue}`,
-                            title: key.split(' (')[0],
-                            fullTitle: key,
-                            date: dateStr,
-                            time: timeStr,
-                            name,
-                            team,
-                            colors
-                        });
-                    }
-                }
-            });
-        });
+      <div class="hidden lg:flex items-center space-x-2 text-xs text-brand-400">
+        <span class="px-2 py-1 bg-brand-900 border border-brand-700 rounded-md shadow-inner">←</span>
+        <span class="px-2 py-1 bg-brand-900 border border-brand-700 rounded-md shadow-inner">→</span>
+        <span>방향키로 슬라이드 제어 가능</span>
+      </div>
+    </div>
+  </div>
 
-        // Initialize UI
-        function init() {
-            // Fill filter dropdown
-            const filterSelect = document.getElementById('filterName');
-            Array.from(participantNames).sort().forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name;
-                opt.textContent = name;
-                filterSelect.appendChild(opt);
-            });
+  <!-- Swiper.js Script -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-            // Fill legend
-            const legendBox = document.getElementById('teamLegend');
-            Object.keys(teamColorMap).filter(t => t !== 'default').forEach(team => {
-                const item = document.createElement('div');
-                item.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-100 bg-slate-50/50';
-                item.innerHTML = `<div class="w-3 h-3 rounded-full ${teamColorMap[team].dot}"></div><span class="text-xs font-bold text-slate-700">${team}</span>`;
-                legendBox.appendChild(item);
-            });
+  <script>
+    const rawData = [
+      {
+        "연번": "1",
+        "이름": "강성식",
+        "상담일자": "2026-05-11",
+        "성별": "남",
+        "연령": "68",
+        "장애명": "지적",
+        "중복장애": "",
+        "장애정도": "심한 장애",
+        "읍, 면": "순창읍",
+        "수급": "수급",
+        "최초 접수자": "김신중",
+        "사진 링크": "https://drive.google.com/file/d/1tbDnkvwHQ4OQPWnNLwkyCyl575Bi5cH8/view?usp=sharing",
+        "상담내용": "순창읍에 거주하는 선천적 지적장애(심함) 미혼 1인가구로, 당뇨 및 폐렴 이력 관리가 중요함. 기초생활수급비와 연금으로 생활하며 문해력은 낮으나 의사표현이 뚜렷함. 집 앞 텃밭과 가축 사육에 심리적 만족감을 느끼고 가족 교류가 잦음. \n욕구: 프로그램 참여에는 거부감이 커 기관 등록만 우선 진행함."
+      },
+      {
+        "연번": "2",
+        "이름": "이봉옥",
+        "상담일자": "2026-05-12",
+        "성별": "여",
+        "연령": "92",
+        "장애명": "지체",
+        "중복장애": "",
+        "장애정도": "심하지 않은 장애",
+        "읍, 면": "쌍치면",
+        "수급": "차상위",
+        "최초 접수자": "김신중",
+        "사진 링크": "https://drive.google.com/file/d/1NCq11kmZpOx9L5SChRoQSGObPqjXvzjK/view?usp=sharing",
+        "상담내용": "100세의 부와 함께 쌍치면에 거주함.\n혈압약 및 신경안정제를 복용중이나 건강한 편임\n질문에 대한 자발적 표현은 어려우나 보기 제시 시 의사 표현이 가능함\n욕구: 문화체험 나들이 프로그램 신청-평생교육팀 연계함"
+      },
+      {
+        "연번": "3",
+        "이름": "박은순",
+        "상담일자": "2026-05-12",
+        "성별": "여",
+        "연령": "68",
+        "장애명": "지적",
+        "중복장애": "",
+        "장애정도": "심한 장애",
+        "읍, 면": "쌍치면",
+        "수급": "수급",
+        "최초 접수자": "김선희",
+        "사진 링크": "https://drive.google.com/file/d/1o36lds2Uzc2lxJCsVkBDnCYXmvV9Q7ER/view?usp=sharing",
+        "상담내용": "허리 수술 후 보행기를 이용하는 지체 심한 장애인임. 사별 1인가구로 차상위 계층임. 심부전 등 다중 질환과 낙상 위험이 크며 비급여 의료비와 난방비 부담을 호소함. 타지 사는 딸의 간헐적 가족요양 외엔 돌봄 공백이 있어식사 방치와 우울감이 심함. \n욕구: 안전손잡이 설치를 희망하여 자립생활팀 연계함."
+      },
+      {
+        "연번": "4",
+        "이름": "김용이",
+        "상담일자": "2026-05-13",
+        "성별": "여",
+        "연령": "83",
+        "장애명": "시각",
+        "중복장애": "",
+        "장애정도": "심하지 않은 장애",
+        "읍, 면": "구림면",
+        "수급": "일반",
+        "최초 접수자": "김신중",
+        "사진 링크": "https://drive.google.com/file/d/1ILSGoViGyDjbHq1VsjdrtZyAfH-cLKhk/view?usp=sharing",
+        "상담내용": "시각 장애이며 사별 1인가구로 노령연금과 노인일자리로 생활함. 형태만 보일 정도의 시력 저하와 허리 및 고관절 통증으로 낙상 위험이 큼. 이웃과 긍정적으로 교류 중임. 자녀들이 타지에 거주하고 있어 돌봄 공백이 큼.\n욕구: 화장실 높은 턱으로 실내 안전사고에 취약해 안전 손잡이 설치 지원 자립생활팀 연계함."
+      },
+      {
+        "연번": "5",
+        "이름": "조주철",
+        "상담일자": "2026-05-15",
+        "성별": "남",
+        "연령": "43",
+        "장애명": "지체",
+        "중복장애": "",
+        "장애정도": "심하지 않은 장애",
+        "읍, 면": "순창읍",
+        "수급": "일반",
+        "최초 접수자": "김선희",
+        "사진 링크": "https://drive.google.com/file/d/1fm3furt5pe2Xc6-XU-UMnOSbZmwIYWYF/view?usp=sharing",
+        "상담내용": "순창군자원봉사종합센터에서 빨래방을 운영하며 마을끼리도란도란 프로그램에 참여하고 있음. 고혈압 약을 복용중이지만 운동 등 건강관리를 잘 하고 있음. \n욕구: 현재 경제활동을 하고 있어 특별한 욕구 및 어려움은 확인되지 않음."
+      },
+      {
+        "연번": "6",
+        "이름": "이양례",
+        "상담일자": "2026-05-15",
+        "성별": "여",
+        "연령": "90",
+        "장애명": "지체",
+        "중복장애": "",
+        "장애정도": "심한 장애",
+        "읍, 면": "순창읍",
+        "수급": "일반",
+        "최초 접수자": "김선희",
+        "사진 링크": "https://drive.google.com/file/d/1PIDLcVutCOHTGr8vdry5HPHo7BEYw8Gf/view?usp=sharing",
+        "상담내용": "첫째 딸과 함께 거주하며 자녀들과 원만한 관계를 유지하고 있음. 농아인협회 회원으로 활동하며 시니어 일자리에 참여하고 있음. 평소 텃밭가꾸기를 좋아하고 고혈압약을 복용중이나 건강상태는 양호함. \n욕구: 찾아가는 테마여행 참여 요청으로 5월 15일 곡성 다녀옴"
+      }
+    ];
 
-            render();
-        }
+    function convertGoogleDriveLink(url) {
+      if (!url) return '';
+      const fileIdMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+      if (fileIdMatch && fileIdMatch[1]) {
+        return `https://drive.google.com/thumbnail?id=${fileIdMatch[1]}&sz=w800`;
+      }
+      return url;
+    }
 
-        function render() {
-            if (viewMode === 'monthly') {
-                document.getElementById('monthlyView').classList.remove('hidden');
-                document.getElementById('yearlyView').classList.add('hidden');
-                renderMonthly();
-            } else {
-                document.getElementById('monthlyView').classList.add('hidden');
-                document.getElementById('yearlyView').classList.remove('hidden');
-                renderYearly();
-            }
-        }
+    function getFallbackAvatar(gender) {
+      const color = gender === '남' ? '#3b82f6' : '#ec4899';
+      const secondaryColor = gender === '남' ? 'text-blue-400' : 'text-pink-400';
+      return `
+        <svg class="w-3/4 h-3/4 ${secondaryColor}" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="64" cy="64" r="62" fill="#1e293b" stroke="${color}" stroke-width="3"/>
+          <path d="M64 80C44.1177 80 28 96.1177 28 116H100C100 96.1177 83.8823 80 64 80Z" fill="${color}" opacity="0.8"/>
+          <circle cx="64" cy="46" r="22" fill="${color}"/>
+          <path d="M50 42C50 42 56 36 64 36C72 36 78 42 78 42" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      `;
+    }
 
-        function renderMonthly() {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-            
-            document.getElementById('displayYear').textContent = year;
-            document.getElementById('displayMonth').textContent = (month + 1) + '월';
+    function parseConsultationText(text) {
+      if (!text) return { info: '', desire: '확인된 욕구 없음' };
+      const parts = text.split(/욕구:/);
+      return {
+        info: parts[0].trim(),
+        desire: parts[1] ? parts[1].trim() : '직접적인 욕구 기술 없음 (상담 내용 참조)'
+      };
+    }
 
-            const filtered = filterName === 'all' ? events : events.filter(e => e.name === filterName);
-            
-            // Grid calculation
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const grid = document.getElementById('calendarGrid');
-            grid.innerHTML = '';
+    document.addEventListener("DOMContentLoaded", function () {
+      const slideContainer = document.getElementById('slideContainer');
+      
+      // 1. 표지 슬라이드
+      const coverSlideHtml = `
+        <div class="swiper-slide h-full w-full bg-gradient-to-br from-brand-950 via-slate-900 to-brand-900 px-6 py-20 flex flex-col justify-center items-center text-center relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+          <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+          <div class="z-10 max-w-4xl px-4">
+            <div class="inline-flex items-center space-x-2 bg-brand-800/80 border border-brand-600/50 px-4 py-2 rounded-full mb-6 shadow-lg">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-400 animate-pulse"></span>
+              <span class="text-xs md:text-sm font-semibold tracking-wider text-brand-200 uppercase">순창군장애인복지관 우리동네사례관리팀</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight drop-shadow-md">
+              5월 신규 재가장애인을 <br class="sm:hidden" /> 소개합니다.
+            </h1>
+            <p class="text-lg md:text-xl text-brand-300 font-light mb-12 max-w-2xl mx-auto leading-relaxed">5월에 발굴된 신규 재가장애인 분들을<br>소개합니다!</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto text-left">
+              <div class="bg-brand-900/60 border border-brand-800 p-4 rounded-xl shadow-lg">
+                <span class="text-xs text-brand-400 block mb-1">총 신규 등록</span>
+                <span class="text-2xl font-bold text-blue-400">6 명</span>
+              </div>
+              <div class="bg-brand-900/60 border border-brand-800 p-4 rounded-xl shadow-lg">
+                <span class="text-xs text-brand-400 block mb-1">성별 구성</span>
+                <span class="text-2xl font-bold text-pink-400">여 4 <span class="text-brand-600">/</span> <span class="text-blue-400">남 2</span></span>
+              </div>
+              <div class="bg-brand-900/60 border border-brand-800 p-4 rounded-xl shadow-lg">
+                <span class="text-xs text-brand-400 block mb-1">평균 연령</span>
+                <span class="text-2xl font-bold text-teal-400">70.6 세</span>
+              </div>
+              <div class="bg-brand-900/60 border border-brand-800 p-4 rounded-xl shadow-lg">
+                <span class="text-xs text-brand-400 block mb-1">장애정도</span>
+                <span class="text-2xl font-bold text-rose-400">심한 장애 3 <span class="text-brand-600">/</span> <span class="text-emerald-400">심하지 않은<br>장애 3</span></span>
+              </div>
+            </div>
+            <div class="mt-12 flex flex-col items-center justify-center text-brand-400 text-xs animate-bounce">
+              <span>아래 버튼 또는 키보드 방향키(→)를 누르세요</span>
+              <svg class="w-5 h-5 mt-2" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 13l-7 7-7-7m14-6l-7 7-7-7"/></svg>
+            </div>
+          </div>
+        </div>
+      `;
+      slideContainer.innerHTML = coverSlideHtml;
 
-            // Padding
-            for (let i = 0; i < firstDay; i++) {
-                const div = document.createElement('div');
-                div.className = "h-28 bg-slate-50/50 border border-slate-100";
-                grid.appendChild(div);
-            }
+      // 2. 개별 데이터 슬라이드
+      rawData.forEach((item) => {
+        const parsed = parseConsultationText(item['상담내용']);
+        const isSevere = item['장애정도'] === '심한 장애';
+        const genderColor = item['성별'] === '남' ? 'text-blue-400 bg-blue-950/40 border-blue-800' : 'text-pink-400 bg-pink-950/40 border-pink-800';
+        
+        let welfareBadgeClass = "";
+        if (item['수급'] === '수급') welfareBadgeClass = "bg-rose-500/20 text-rose-300 border-rose-500/40";
+        else if (item['수급'] === '차상위') welfareBadgeClass = "bg-amber-500/20 text-amber-300 border-amber-500/40";
+        else welfareBadgeClass = "bg-slate-700/30 text-slate-300 border-slate-600/40";
 
-            // Days
-            for (let d = 1; d <= daysInMonth; d++) {
-                const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-                const dayEvents = filtered.filter(e => e.date === dateKey);
-                
-                const div = document.createElement('div');
-                div.className = `h-28 border border-slate-100 p-1 overflow-y-auto hover:bg-slate-50 transition-colors ${dayEvents.length > 0 ? 'bg-white' : 'bg-slate-50/20'}`;
-                
-                let eventsHtml = `<div class="text-right text-xs font-bold text-slate-400 mb-1 pr-1">${d}</div>`;
-                eventsHtml += '<div class="flex flex-col gap-1">';
-                dayEvents.forEach(ev => {
-                    eventsHtml += `
-                        <div class="text-[9px] leading-tight p-1 rounded ${ev.colors.bg} ${ev.colors.text} border-l-2 ${ev.colors.border} truncate" title="${ev.name} [${ev.time}] ${ev.title}">
-                            <span class="font-bold">${ev.time}</span> ${ev.name}
-                        </div>
-                    `;
-                });
-                eventsHtml += '</div>';
-                
-                div.innerHTML = eventsHtml;
-                grid.appendChild(div);
-            }
+        const severityBadgeClass = isSevere ? "bg-red-500/20 text-red-300 border-red-500/40" : "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
+        const severityIcon = isSevere ? "❗" : "✅";
+        const driveDirectUrl = convertGoogleDriveLink(item['사진 링크']);
 
-            // List rendering
-            const listContainer = document.getElementById('monthlyList');
-            listContainer.innerHTML = '';
-            const monthlyEvents = filtered.filter(e => {
-                const d = new Date(e.date);
-                return d.getMonth() === month && d.getFullYear() === year;
-            }).sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time));
-
-            document.getElementById('monthlyCount').textContent = `총 ${monthlyEvents.length}건`;
-
-            monthlyEvents.forEach(e => {
-                const card = document.createElement('div');
-                card.className = "group flex items-center gap-4 p-4 bg-white border border-slate-100 rounded-2xl hover:border-slate-300 transition-all hover:shadow-md";
-                card.innerHTML = `
-                    <div class="flex flex-col items-center justify-center bg-slate-50 px-3 py-2 rounded-xl min-w-[70px]">
-                        <span class="text-[10px] font-black text-slate-400">${e.date.split('-')[2]}일</span>
-                        <span class="text-xs font-black text-slate-800">${e.time}</span>
+        const slideHtml = `
+          <div class="swiper-slide h-full w-full bg-brand-950 px-4 md:px-12 py-24 flex items-center justify-center">
+            <div class="w-full max-w-6xl bg-brand-900/40 border border-brand-800/80 rounded-2xl p-5 md:p-8 shadow-2xl backdrop-blur-md flex flex-col md:flex-row gap-6 md:gap-10 h-auto md:h-[calc(100vh-140px)] overflow-y-auto md:overflow-hidden">
+              <div class="w-full md:w-[55%] flex flex-col justify-between border-b md:border-b-0 md:border-r border-brand-800 pb-4 md:pb-0 md:pr-8 h-full">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="bg-brand-800 text-brand-300 text-xs font-bold px-3 py-1.5 rounded-lg border border-brand-700 tracking-wider">CASE #${item['연번']}</span>
+                  <span class="text-xs text-brand-400">상담일자: ${item['상담일자']}</span>
+                </div>
+                <div class="flex flex-col items-center text-center my-auto py-1">
+                  <a href="${item['사진 링크']}" target="_blank" class="relative w-48 h-48 sm:w-64 sm:h-64 md:w-[38vh] md:h-[38vh] lg:w-[46vh] lg:h-[46vh] xl:w-[50vh] xl:h-[50vh] max-w-full rounded-2xl border-2 border-brand-700/60 overflow-hidden mb-3.5 bg-brand-950/80 flex items-center justify-center shadow-2xl group cursor-pointer transition-all hover:border-blue-500 shrink-0">
+                    <img src="${driveDirectUrl}" alt="${item['이름']}" class="w-full h-full object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
+                    <div class="hidden w-full h-full items-center justify-center">${getFallbackAvatar(item['성별'])}</div>
+                    <div class="absolute inset-0 bg-brand-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity text-xs text-white">
+                      <span class="bg-brand-900/90 border border-brand-700 px-2.5 py-1 rounded-md">원본 보기 🔍</span>
                     </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-xs font-black text-slate-400 mb-0.5 truncate">${e.fullTitle.split(' (')[0]}</p>
-                        <div class="flex items-center gap-2">
-                            <span class="text-sm font-bold text-slate-700">${e.name}</span>
-                            <span class="px-2 py-0.5 ${e.colors.bg} ${e.colors.text} text-[9px] font-black rounded-md">${e.team}</span>
-                        </div>
-                    </div>
-                `;
-                listContainer.appendChild(card);
-            });
-        }
+                  </a>
+                  <div class="space-y-1 mb-2.5">
+                    <h2 class="text-3xl font-extrabold text-white flex items-center justify-center gap-2">이름: ${item['이름']} <span class="text-sm font-medium text-brand-400">(연령: ${item['연령']}세)</span></h2>
+                    <p class="text-sm text-brand-300 font-medium tracking-wide">거주지역 : 순창군 <span class="text-blue-400 font-bold">${item['읍, 면']}</span></p>
+                  </div>
+                  <div class="flex flex-wrap gap-1.5 justify-center max-w-md">
+                    <span class="text-xs font-semibold px-2.5 py-1 rounded-md border ${genderColor} flex items-center gap-1 shadow-sm">${item['성별'] === '남' ? '♂️ 남성' : '♀️ 여성'}</span>
+                    <span class="text-xs font-semibold px-2.5 py-1 rounded-md border bg-slate-800/80 text-brand-200 border-brand-700 shadow-sm">♿ ${item['장애명']} 장애</span>
+                    <span class="text-xs font-semibold px-2.5 py-1 rounded-md border ${severityBadgeClass} flex items-center gap-1 shadow-sm">${severityIcon} ${item['장애정도']}</span>
+                    <span class="text-xs font-semibold px-2.5 py-1 rounded-md border ${welfareBadgeClass} shadow-sm">🏷️ 수급구분: ${item['수급']}</span>
+                  </div>
+                </div>
+                <div class="bg-brand-950/50 border border-brand-800/80 rounded-xl p-3 mt-2 space-y-1 text-xs text-brand-300">
+                  <div class="flex justify-between"><span>중복장애 여부</span><span class="font-medium text-slate-100">${item['중복장애'] || '없음'}</span></div>
+                  <div class="flex justify-between"><span>최초 접수 상담자</span><span class="font-medium text-slate-100">${item['최초 접수자']}</span></div>
+                </div>
+              </div>
+              <div class="w-full md:w-[45%] flex flex-col h-full overflow-hidden justify-between mt-6 md:mt-0">
+                <div class="flex-1 flex flex-col mb-4 overflow-hidden min-h-[200px]">
+                  <div class="flex items-center space-x-2 text-brand-300 text-sm font-bold mb-2 tracking-wider">
+                    <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    <span>1. 상세 상담 및 관찰내용</span>
+                  </div>
+                  <div class="flex-1 bg-brand-950/60 border border-brand-800/50 rounded-xl p-4 md:p-5 overflow-y-auto custom-scrollbar text-slate-200 text-base leading-relaxed whitespace-pre-wrap font-normal">${parsed.info}</div>
+                </div>
+                <div class="h-1/3 min-h-[140px] flex flex-col">
+                  <div class="flex items-center space-x-2 text-amber-300 text-sm font-bold mb-2 tracking-wider">
+                    <svg class="w-5 h-5 text-amber-400 animate-pulse" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <span>2. 핵심 당사자 욕구 & 연계 조치</span>
+                  </div>
+                  <div class="flex-1 bg-gradient-to-r from-amber-950/40 to-brand-950/80 border border-amber-900/40 rounded-xl p-4 overflow-y-auto custom-scrollbar text-amber-200 text-base leading-relaxed font-semibold">${parsed.desire}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        slideContainer.innerHTML += slideHtml;
+      });
 
-        function renderYearly() {
-            const grid = document.getElementById('yearlyGrid');
-            grid.innerHTML = '';
-            const filtered = filterName === 'all' ? events : events.filter(e => e.name === filterName);
+      // 3. Swiper 초기화
+      const totalSlides = rawData.length + 1;
+      document.getElementById('totalNumber').innerText = totalSlides;
 
-            for (let m = 0; m < 12; m++) {
-                const daysInMonth = new Date(2026, m + 1, 0).getDate();
-                const firstDay = new Date(2026, m, 1).getDay();
-                const monthEvents = filtered.filter(e => {
-                    const d = new Date(e.date);
-                    return d.getMonth() === m && d.getFullYear() === 2026;
-                });
-                const eventDays = new Set(monthEvents.map(e => e.date));
+      const swiper = new Swiper(".mySwiper", {
+        direction: "horizontal",
+        loop: false,
+        grabCursor: true,
+        keyboard: { enabled: true, onlyInViewport: true },
+        speed: 500,
+        effect: "slide",
+        observer: true,
+        observeParents: true,
+      });
 
-                const monthDiv = document.createElement('div');
-                monthDiv.className = "bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all";
-                
-                let html = `
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="font-black text-slate-700">${m + 1}월</h3>
-                        <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold">${eventDays.size}일 교육</span>
-                    </div>
-                    <div class="grid grid-cols-7 gap-1">
-                        ${['일', '월', '화', '수', '목', '금', '토'].map(d => `<div class="text-[8px] text-center text-slate-300 font-bold">${d}</div>`).join('')}
-                        ${Array(firstDay).fill('<div class="h-4"></div>').join('')}
-                `;
+      function updateNavigation() {
+        const activeIdx = swiper.activeIndex + 1;
+        document.getElementById('currentNumber').innerText = activeIdx;
+        document.getElementById('prevBtn').disabled = swiper.isBeginning;
+        document.getElementById('nextBtn').disabled = swiper.isEnd;
+      }
 
-                for (let d = 1; d <= daysInMonth; d++) {
-                    const dateKey = `2026-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-                    const dayEvents = monthEvents.filter(e => e.date === dateKey);
-                    const hasEvents = dayEvents.length > 0;
-                    const mainColor = hasEvents ? dayEvents[0].colors.dot : '';
-                    
-                    html += `
-                        <div class="h-4 w-4 mx-auto text-[9px] flex items-center justify-center rounded-full transition-all
-                            ${hasEvents ? `${mainColor} text-white font-bold ring-2 ring-white` : 'text-slate-300'}">
-                            ${d}
-                        </div>
-                    `;
-                }
+      swiper.on("slideChange", updateNavigation);
+      updateNavigation();
 
-                html += '</div>';
-                monthDiv.innerHTML = html;
-                grid.appendChild(monthDiv);
-            }
-        }
-
-        // Event Handlers
-        function changeView(mode) {
-            viewMode = mode;
-            const btnMonthly = document.getElementById('btnMonthly');
-            const btnYearly = document.getElementById('btnYearly');
-            
-            if (mode === 'monthly') {
-                btnMonthly.className = "flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all bg-slate-800 text-white shadow-md";
-                btnYearly.className = "flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all text-slate-500 hover:bg-slate-50";
-            } else {
-                btnYearly.className = "flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all bg-slate-800 text-white shadow-md";
-                btnMonthly.className = "flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all text-slate-500 hover:bg-slate-50";
-            }
-            render();
-        }
-
-        function updateFilter(val) {
-            filterName = val;
-            render();
-        }
-
-        function prevMonth() {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            render();
-        }
-
-        function nextMonth() {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            render();
-        }
-
-        // Run
-        window.onload = init;
-    </script>
+      document.getElementById('prevBtn').addEventListener('click', () => swiper.slidePrev());
+      document.getElementById('nextBtn').addEventListener('click', () => swiper.slideNext());
+    });
+  </script>
 </body>
 </html>
