@@ -1,398 +1,1385 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>5월 신규 재가장애인 소개 발표</title>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Swiper.js CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-  
-  <!-- Google Fonts - Pretendard -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Pretendard', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#f0f4f8',
-              100: '#dbe9f4',
-              200: '#b0cbdf',
-              300: '#79a6c5',
-              400: '#487ea3',
-              500: '#2b5f84',
-              600: '#1e4869',
-              700: '#163651',
-              800: '#0f2438',
-              900: '#091522',
-              950: '#050a12',
-            }
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>걷기대회 현장 업무 가이드</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --border: #e2e8f0;
+            --header-height: 60px;
+            --nav-height: 70px;
         }
-      }
-    }
-  </script>
 
-  <style>
-    body {
-      font-family: 'Pretendard', sans-serif;
-      background-color: #091522;
-      overflow: hidden;
-    }
-    .swiper {
-      width: 100%;
-      height: 100vh;
-    }
-    .swiper-slide {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-sizing: border-box;
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: rgba(15, 36, 56, 0.5);
-      border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: rgba(121, 166, 197, 0.4);
-      border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: rgba(121, 166, 197, 0.6);
-    }
-  </style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 헤더 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin: 0;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .current-time {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-sub);
+            background: var(--bg);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        /* 메인 콘텐츠 영역 */
+        main {
+            padding: calc(var(--header-height) + 16px) 16px calc(var(--nav-height) + 20px);
+            min-height: 100vh;
+        }
+
+        /* 이름 선택 버튼 (모바일 최적화) */
+        .name-selector-btn {
+            width: 100%;
+            padding: 14px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .name-selector-btn::after {
+            content: '▼';
+            font-size: 0.7rem;
+            color: var(--text-sub);
+        }
+
+        /* 바텀 시트 (성명 선택 창) */
+        .bottom-sheet {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            z-index: 2000;
+            transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+        }
+
+        .bottom-sheet.show {
+            bottom: 0;
+        }
+
+        .sheet-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .sheet-handle {
+            width: 40px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin: 0 auto 12px;
+        }
+
+        .sheet-header h2 {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .name-grid {
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            overflow-y: auto;
+        }
+
+        .name-btn {
+            padding: 12px 8px;
+            background: var(--bg);
+            border: 1px solid transparent;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .name-btn.active {
+            background: #eff6ff;
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1500;
+            display: none;
+        }
+
+        /* 업무 카드 */
+        .person-info {
+            margin-bottom: 16px;
+        }
+
+        .person-info h2 {
+            font-size: 1.5rem;
+            margin: 0;
+            display: inline-block;
+        }
+
+        .person-info .role {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-left: 8px;
+            font-weight: 500;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .task-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .task-card.now {
+            border: 2px solid var(--success);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+        }
+
+        .task-card.common {
+            border-left: 5px solid var(--warning);
+        }
+
+        .time-label {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .task-card.now .time-label { color: var(--success); }
+
+        .badge-container {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .badge {
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        .badge-now { background: var(--success); color: white; animation: blink 2s infinite; }
+        .badge-common { background: #fef3c7; color: #d97706; }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .row {
+            margin-bottom: 10px;
+        }
+
+        .row:last-child { margin-bottom: 0; }
+
+        .label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .value {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+
+        /* 환영 화면 */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-sub);
+        }
+
+        .empty-state .icon { font-size: 3rem; margin-bottom: 16px; display: block; }
+
+        /* 하단 네비게이션 (빠른 선택용) */
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: white;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 10px;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .nav-item.active { color: var(--primary); }
+        .nav-item .icon { font-size: 1.4rem; }
+
+    </style>
 </head>
-<body class="text-slate-100 selection:bg-brand-500 selection:text-white">
+<body>
 
-  <!-- 메인 스와이프 컨테이너 -->
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper" id="slideContainer">
-      <!-- JavaScript에서 동적으로 생성됨 -->
+<header>
+    <h1><span>🚶‍♂️</span> 현장 가이드</h1>
+    <div class="current-time" id="currentTime">--:--</div>
+</header>
+
+<main>
+    <div id="welcomeScreen" class="empty-state">
+        <span class="icon">📋</span>
+        <p>현장 인력 성명을 선택하면<br>실시간 업무 가이드가 표시됩니다.</p>
     </div>
-    
-    <!-- 하단 글로벌 컨트롤 바 -->
-    <div class="absolute bottom-0 left-0 right-0 z-30 bg-brand-950/90 border-t border-brand-800/80 px-6 py-4 flex justify-between items-center backdrop-blur-md">
-      <div class="hidden sm:flex items-center space-x-3 text-xs md:text-sm text-brand-300">
-        <span class="flex h-2.5 w-2.5 relative">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-        </span>
-        <span class="font-semibold tracking-wider text-brand-200">순창군장애인복지관 사례 발표</span>
-        <span class="text-brand-600">|</span>
-        <span class="flex items-center gap-1">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
-          실무자 배포용
-        </span>
-      </div>
 
-      <div class="flex items-center space-x-6 mx-auto sm:mx-0">
-        <button id="prevBtn" class="p-2 rounded-xl bg-brand-900 border border-brand-700/60 hover:bg-brand-800 text-brand-200 hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-md">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
-          </svg>
+    <div id="contentScreen" style="display: none;">
+        <button class="name-selector-btn" onclick="toggleSheet(true)">
+            <span id="selectedNameDisplay">성명 선택</span>
         </button>
 
-        <div class="text-center font-semibold text-lg tracking-widest text-brand-100 min-w-[70px]">
-          <span id="currentNumber" class="text-2xl text-blue-400">1</span>
-          <span class="text-brand-600 mx-1">/</span>
-          <span id="totalNumber" class="text-brand-400">-</span>
+        <div class="person-info">
+            <h2 id="viewName">이름</h2>
+            <span id="viewRole" class="role">소속</span>
         </div>
 
-        <button id="nextBtn" class="p-2 rounded-xl bg-brand-900 border border-brand-700/60 hover:bg-brand-800 text-brand-200 hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-md">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
-          </svg>
-        </button>
-      </div>
-
-      <div class="hidden lg:flex items-center space-x-2 text-xs text-brand-400">
-        <span class="px-2 py-1 bg-brand-900 border border-brand-700 rounded-md shadow-inner">←</span>
-        <span class="px-2 py-1 bg-brand-900 border border-brand-700 rounded-md shadow-inner">→</span>
-        <span>방향키로 슬라이드 제어 가능</span>
-      </div>
+        <div id="viewTimeline" class="timeline">
+            <!-- 업무 카드가 여기에 추가됩니다 -->
+        </div>
     </div>
-  </div>
+</main>
 
-  <!-- Swiper.js Script -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<nav>
+    <a href="#" class="nav-item active" onclick="location.reload()">
+        <span class="icon">🏠</span>
+        홈
+    </a>
+    <a href="#" class="nav-item" onclick="toggleSheet(true)">
+        <span class="icon">👥</span>
+        성명 선택
+    </a>
+    <a href="#" class="nav-item" onclick="alert('전직원 공통 업무를 확인합니다.'); selectPerson('전직원')">
+        <span class="icon">📢</span>
+        공통 업무
+    </a>
+</nav>
 
-  <script>
+<div class="overlay" id="overlay" onclick="toggleSheet(false)"></div>
+
+<div class="bottom-sheet" id="bottomSheet">
+    <div class="sheet-header">
+        <div class="sheet-handle"></div>
+        <h2>업무 담당자 선택</h2>
+    </div>
+    <div class="name-grid" id="nameGrid">
+        <!-- 이름 버튼들이 동적으로 추가됩니다 -->
+    </div>
+</div>
+
+<script>
     const rawData = [
-      {
-        "연번": "1",
-        "이름": "강성식",
-        "상담일자": "2026-05-11",
-        "성별": "남",
-        "연령": "68",
-        "장애명": "지적",
-        "중복장애": "",
-        "장애정도": "심한 장애",
-        "읍, 면": "순창읍",
-        "수급": "수급",
-        "최초 접수자": "김신중",
-        "사진 링크": "https://drive.google.com/file/d/1tbDnkvwHQ4OQPWnNLwkyCyl575Bi5cH8/view?usp=sharing",
-        "상담내용": "순창읍에 거주하는 선천적 지적장애(심함) 미혼 1인가구로, 당뇨 및 폐렴 이력 관리가 중요함. 기초생활수급비와 연금으로 생활하며 문해력은 낮으나 의사표현이 뚜렷함. 집 앞 텃밭과 가축 사육에 심리적 만족감을 느끼고 가족 교류가 잦음. \n욕구: 프로그램 참여에는 거부감이 커 기관 등록만 우선 진행함."
-      },
-      {
-        "연번": "2",
-        "이름": "이봉옥",
-        "상담일자": "2026-05-12",
-        "성별": "여",
-        "연령": "92",
-        "장애명": "지체",
-        "중복장애": "",
-        "장애정도": "심하지 않은 장애",
-        "읍, 면": "쌍치면",
-        "수급": "차상위",
-        "최초 접수자": "김신중",
-        "사진 링크": "https://drive.google.com/file/d/1NCq11kmZpOx9L5SChRoQSGObPqjXvzjK/view?usp=sharing",
-	    "상담내용": "허리 수술 후 보행기를 이용하는 지체 심하지 않은 장애인임. 사별 1인가구로 차상위 계층임. 심부전 등 다중 질환과 낙상 위험이 크며 비급여 의료비와 난방비 부담을 호소함. 타지 사는 딸의 간헐적 가족요양 외엔 돌봄 공백이 있어 식사 방치와 우울감이 심함. \n욕구: 안전손잡이 설치를 희망하여 자립생활팀 연계함."
-      },
-      {
-        "연번": "3",
-        "이름": "박은순",
-        "상담일자": "2026-05-12",
-        "성별": "여",
-        "연령": "68",
-        "장애명": "지적",
-        "중복장애": "",
-        "장애정도": "심한 장애",
-        "읍, 면": "쌍치면",
-        "수급": "수급",
-        "최초 접수자": "김선희",
-        "사진 링크": "https://drive.google.com/file/d/1o36lds2Uzc2lxJCsVkBDnCYXmvV9Q7ER/view?usp=sharing",
-		"상담내용": "100세의 부와 함께 쌍치면에 거주함.\n혈압약 및 신경안정제를 복용중이나 건강한 편임\n질문에 대한 자발적 표현은 어려우나 보기 제시 시 의사 표현이 가능함\n욕구: 문화체험 나들이 프로그램 신청-평생교육팀 연계함"
-      },
-      {
-        "연번": "4",
-        "이름": "김용이",
-        "상담일자": "2026-05-13",
-        "성별": "여",
-        "연령": "83",
-        "장애명": "시각",
-        "중복장애": "",
-        "장애정도": "심하지 않은 장애",
-        "읍, 면": "구림면",
-        "수급": "일반",
-        "최초 접수자": "김신중",
-        "사진 링크": "https://drive.google.com/file/d/1ILSGoViGyDjbHq1VsjdrtZyAfH-cLKhk/view?usp=sharing",
-        "상담내용": "시각 장애이며 사별 1인가구로 기초연금과 시니어일자리로 생활함. 형태만 보일 정도의 시력 저하와 허리 및 고관절 통증으로 낙상 위험이 큼. 이웃과 긍정적으로 교류 중임. 자녀들이 타지에 거주하고 있어 돌봄 공백이 큼.\n욕구: 화장실 높은 턱으로 실내 안전사고에 취약해 안전 손잡이 설치 지원 자립생활팀 연계함."
-      },
-      {
-        "연번": "5",
-        "이름": "조주철",
-        "상담일자": "2026-05-15",
-        "성별": "남",
-        "연령": "43",
-        "장애명": "지체",
-        "중복장애": "",
-        "장애정도": "심하지 않은 장애",
-        "읍, 면": "순창읍",
-        "수급": "일반",
-        "최초 접수자": "김선희",
-        "사진 링크": "https://drive.google.com/file/d/1fm3furt5pe2Xc6-XU-UMnOSbZmwIYWYF/view?usp=sharing",
-        "상담내용": "순창군자원봉사종합센터에서 빨래방을 운영하며 마을끼리도란도란 프로그램에 참여하고 있음. 고혈압 약을 복용중이지만 운동 등 건강관리를 잘 하고 있음. \n욕구: 현재 경제활동을 하고 있어 특별한 욕구 및 어려움은 확인되지 않음."
-      },
-      {
-        "연번": "6",
-        "이름": "이양례",
-        "상담일자": "2026-05-15",
-        "성별": "여",
-        "연령": "90",
-        "장애명": "지체",
-        "중복장애": "",
-        "장애정도": "심한 장애",
-        "읍, 면": "순창읍",
-        "수급": "일반",
-        "최초 접수자": "김선희",
-        "사진 링크": "https://drive.google.com/file/d/1PIDLcVutCOHTGr8vdry5HPHo7BEYw8Gf/view?usp=sharing",
-        "상담내용": "첫째 딸과 함께 거주하며 자녀들과 원만한 관계를 유지하고 있음. 농아인협회 회원으로 활동하며 시니어 일자리에 참여하고 있음. 평소 텃밭가꾸기를 좋아하고 고혈압약을 복용중이나 건강상태는 양호함. \n욕구: 찾아가는 테마여행 참여 요청으로 5월 15일 곡성 다녀옴"
-      }
-    ];
+  {
+    "성명": "강수인",
+    "소속/역할": "평생교육팀(청년인턴)",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "PV5 차량 탑승 이동",
+    "동행하는 사람": "탁선희, 서해숙, 양주봉, 박영균",
+    "비고": "운전: 박영균",
+    "Source": "1"
+  },
+  {
+    "성명": "강주연",
+    "소속/역할": "자립생활팀(팀장)",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "스파크 차량 탑승 이동",
+    "동행하는 사람": "박슬기, 이윤수",
+    "비고": "운전: 박슬기",
+    "Source": "1"
+  },
+  {
+    "성명": "김선희",
+    "소속/역할": "우리동네(팀장)",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "스타리아 차량 탑승 이동",
+    "동행하는 사람": "김연의, 유승주, 조재현, 제승연, 김신중, 남용우, 한문호",
+    "비고": "운전: 김신중",
+    "Source": "1"
+  },
+  {
+    "성명": "김신중",
+    "소속/역할": "우리동네",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "스타리아 운전 및 인원 수송",
+    "동행하는 사람": "김연의, 유승주, 조재현, 제승연, 김선희, 남용우, 한문호",
+    "비고": "운전 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "김연의",
+    "소속/역할": "경영지원팀(팀장)",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "스타리아 차량 탑승 이동",
+    "동행하는 사람": "유승주, 조재현, 제승연, 김선희, 김신중, 남용우, 한문호",
+    "비고": "운전: 김신중",
+    "Source": "1"
+  },
+  {
+    "성명": "남용우",
+    "소속/역할": "장애인 일자리",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "스타리아 차량 탑승 이동",
+    "동행하는 사람": "김연의, 유승주, 조재현, 제승연, 김선희, 김신중, 한문호",
+    "비고": "운전: 김신중",
+    "Source": "1"
+  },
+  {
+    "성명": "박슬기",
+    "소속/역할": "우리동네",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "스파크 운전 및 인원 수송",
+    "동행하는 사람": "이윤수, 강주연",
+    "비고": "운전 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "박영균",
+    "소속/역할": "평생교육팀(자립신규)",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "PV5 운전 및 인원 수송",
+    "동행하는 사람": "탁선희, 서해숙, 양주봉, 강수인",
+    "비고": "운전 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "서해숙",
+    "소속/역할": "평생교육팀(팀장)",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "PV5 차량 탑승 이동",
+    "동행하는 사람": "탁선희, 양주봉, 박영균, 강수인",
+    "비고": "운전: 박영균",
+    "Source": "1"
+  },
+  {
+    "성명": "유승주",
+    "소속/역할": "경영지원팀",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "스타리아 차량 탑승 이동",
+    "동행하는 사람": "김연의, 조재현, 제승연, 김선희, 김신중, 남용우, 한문호",
+    "비고": "운전: 김신중",
+    "Source": "1"
+  },
+  {
+    "성명": "이윤수",
+    "소속/역할": "우리동네",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "스파크 차량 탑승 이동",
+    "동행하는 사람": "박슬기, 강주연",
+    "비고": "운전: 박슬기",
+    "Source": "1"
+  },
+  {
+    "성명": "제승연",
+    "소속/역할": "경영지원팀",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "스타리아 차량 탑승 이동",
+    "동행하는 사람": "김연의, 유승주, 조재현, 김선희, 김신중, 남용우, 한문호",
+    "비고": "운전: 김신중",
+    "Source": "1"
+  },
+  {
+    "성명": "조재현",
+    "소속/역할": "경영지원팀",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "스타리아 차량 탑승 이동 및 행사 사진/영상 촬영 준비",
+    "동행하는 사람": "김연의, 유승주, 제승연, 김선희, 김신중, 남용우, 한문호",
+    "비고": "운전: 김신중 / 행사 미디어 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "탁선희",
+    "소속/역할": "사무국장",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "PV5 차량 탑승 이동",
+    "동행하는 사람": "서해숙, 양주봉, 박영균, 강수인",
+    "비고": "운전: 박영균",
+    "Source": "1"
+  },
+  {
+    "성명": "한문호",
+    "소속/역할": "장애인 일자리",
+    "시간대": "07:15 ~ 07:35",
+    "하는 일": "스타리아 차량 탑승 이동",
+    "동행하는 사람": "김연의, 유승주, 조재현, 제승연, 김선희, 김신중, 남용우",
+    "비고": "운전: 김신중",
+    "Source": "1"
+  },
+  {
+    "성명": "양주봉",
+    "소속/역할": "평생교육팀(사업담당)",
+    "시간대": "07:20 ~ 09:30",
+    "하는 일": "상상미디어 업체 설치 확인(무대, 음향, 의자 350개, 천막, 테이블 등), 무대 뒤 대기 장소 설치 확인",
+    "동행하는 사람": "상상미디어 업체",
+    "비고": "행사장 부지 전체 설치 확인",
+    "Source": "1"
+  },
+  {
+    "성명": "박영균",
+    "소속/역할": "평생교육팀(자립신규)",
+    "시간대": "07:45 ~ 08:50",
+    "하는 일": "PV5 운전하여 강천산 인원 하차 후 국악원으로 이동하여 사물놀이 악기(장구, 북, 징, 받침대) 및 접이식 의자 옮기기",
+    "동행하는 사람": "탁선희, 서해숙",
+    "비고": "운전 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "서해숙",
+    "소속/역할": "평생교육팀(팀장)",
+    "시간대": "07:45 ~ 08:50",
+    "하는 일": "사물놀이 악기 및 물품 옮기기 보조 (강천산 -> 국악원 이동)",
+    "동행하는 사람": "탁선희, 박영균",
+    "비고": "운전: 박영균",
+    "Source": "1"
+  },
+  {
+    "성명": "탁선희",
+    "소속/역할": "사무국장",
+    "시간대": "07:45 ~ 08:50",
+    "하는 일": "사물놀이 악기 및 물품 옮기기 보조 (강천산 -> 국악원 이동)",
+    "동행하는 사람": "서해숙, 박영균",
+    "비고": "운전: 박영균",
+    "Source": "1"
+  },
+  {
+    "성명": "김신중",
+    "소속/역할": "우리동네",
+    "시간대": "07:45 ~ 08:40",
+    "하는 일": "스타리아 운전하여 강천산 인원 하차 후 복지관으로 이동하여 천막, 테이블, 사무용품, 미션 도구 등 옮기기",
+    "동행하는 사람": "제승연, 박영균, 이윤수",
+    "비고": "운전 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "제승연",
+    "소속/역할": "경영지원팀",
+    "시간대": "07:45 ~ 08:40",
+    "하는 일": "스타리아 탑승하여 복지관 물건(천막, 테이블, 유도봉, 사무용품, 피켓 등) 옮기기 보조",
+    "동행하는 사람": "김신중, 박영균, 이윤수",
+    "비고": "운전: 김신중",
+    "Source": "1"
+  },
+  {
+    "성명": "박영균",
+    "소속/역할": "평생교육팀(자립신규)",
+    "시간대": "09:00 ~ 09:50",
+    "하는 일": "PV5 운전하여 복지관에서 생수(800개) 및 답례품 박스 행사장으로 운송",
+    "동행하는 사람": "이윤수, 제승연",
+    "비고": "운전 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "이윤수",
+    "소속/역할": "우리동네",
+    "시간대": "09:00 ~ 09:50",
+    "하는 일": "PV5 탑승하여 생수 800개 및 답례품 박스 행사장 본부로 옮기기 보조",
+    "동행하는 사람": "박영균, 제승연",
+    "비고": "운전: 박영균",
+    "Source": "1"
+  },
+  {
+    "성명": "제승연",
+    "소속/역할": "경영지원팀",
+    "시간대": "09:00 ~ 09:50",
+    "하는 일": "PV5 탑승하여 생수 800개 및 답례품 박스 행사장 본부로 옮기기 보조",
+    "동행하는 사람": "박영균, 이윤수",
+    "비고": "운전: 박영균",
+    "Source": "1"
+  },
+  {
+    "성명": "양주봉",
+    "소속/역할": "평생교육팀(사업담당)",
+    "시간대": "10:30 ~ 11:05",
+    "하는 일": "개회식 사회 진행 (기관 소개, 내빈 소개, 대회사 등)",
+    "동행하는 사람": "김선희, 조재현",
+    "비고": "사회자",
+    "Source": "1"
+  },
+  {
+    "성명": "조재현",
+    "소속/역할": "경영지원팀",
+    "시간대": "10:30 ~ 11:05",
+    "하는 일": "개회식 행사 사진 및 영상 촬영",
+    "동행하는 사람": "양주봉, 김선희",
+    "비고": "사진촬영 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "김선희",
+    "소속/역할": "우리동네(팀장)",
+    "시간대": "11:10 ~ 11:40",
+    "하는 일": "1차 식사 후 스타리아 탑승하여 하트벤치 미션 장소로 이동",
+    "동행하는 사람": "이혜숙, 김신중",
+    "비고": "하트벤치 미션 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "이혜숙",
+    "소속/역할": "자원봉사자(한국부인회 부회장)",
+    "시간대": "11:10 ~ 11:40",
+    "하는 일": "1차 식사 후 김선희 팀장과 함께 하트벤치 미션 장소로 이동",
+    "동행하는 사람": "김선희, 김신중",
+    "비고": "자원봉사자",
+    "Source": "1"
+  },
+  {
+    "성명": "김신중",
+    "소속/역할": "우리동네",
+    "시간대": "11:10 ~ 11:40",
+    "하는 일": "식사 인원 및 미션 장소 인원 수송 (스타리아 운전)",
+    "동행하는 사람": "한문호, 문영숙, 김선희, 이혜숙",
+    "비고": "운전 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "한문호",
+    "소속/역할": "장애인 일자리",
+    "시간대": "11:10 ~ 11:40",
+    "하는 일": "1차 식사 후 스타리아 탑승하여 현수교 입구로 이동",
+    "동행하는 사람": "김신중",
+    "비고": "현수교 입구 이동",
+    "Source": "1"
+  },
+  {
+    "성명": "문영숙",
+    "소속/역할": "자원봉사자",
+    "시간대": "11:10 ~ 11:40",
+    "하는 일": "1차 식사 후 스타리아 탑승하여 강천사 입구 화장실 안내소로 이동",
+    "동행하는 사람": "김신중",
+    "비고": "화장실 안내",
+    "Source": "1"
+  },
+  {
+    "성명": "박영균",
+    "소속/역할": "평생교육팀(자립신규)",
+    "시간대": "11:10 ~ 11:40",
+    "하는 일": "1차 식사 후 병풍폭포 미션 장소로 이동",
+    "동행하는 사람": "이윤수",
+    "비고": "병풍폭포 이동",
+    "Source": "1"
+  },
+  {
+    "성명": "이윤수",
+    "소속/역할": "우리동네",
+    "시간대": "11:10 ~ 11:40",
+    "하는 일": "1차 식사 후 병풍폭포 미션 장소로 이동",
+    "동행하는 사람": "박영균",
+    "비고": "병풍폭포 이동",
+    "Source": "1"
+  },
+  {
+    "성명": "강주연",
+    "소속/역할": "자립생활팀(팀장)",
+    "시간대": "11:30 ~ 12:00",
+    "하는 일": "관장 회의 동행 (식당 '산솔' 자리 안내 및 메뉴 확인)",
+    "동행하는 사람": "복지관장단",
+    "비고": "관장 회의 지원",
+    "Source": "1"
+  },
+  {
+    "성명": "박슬기",
+    "소속/역할": "우리동네",
+    "시간대": "11:30 ~ 12:00",
+    "하는 일": "사무국장 회의 동행 (식당 '엥이 라스또리아' 자리 안내 및 메뉴 확인)",
+    "동행하는 사람": "사무국장단",
+    "비고": "사무국장 회의 지원",
+    "Source": "1"
+  },
+  {
+    "성명": "양주봉",
+    "소속/역할": "평생교육팀(사업담당)",
+    "시간대": "11:50 ~ 12:00",
+    "하는 일": "행사장 재집결 안내 및 준비운동 진행 지원",
+    "동행하는 사람": "오숙현 지도자, 정경선 댄스교실 참여자",
+    "비고": "준비운동 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "이혜숙",
+    "소속/역할": "자원봉사자(한국부인회 부회장)",
+    "시간대": "12:00 ~ 13:40",
+    "하는 일": "하트벤치에서 김선희 팀장과 미션 진행 및 대기 안내",
+    "동행하는 사람": "김선희",
+    "비고": "미션 진행 지원",
+    "Source": "1"
+  },
+  {
+    "성명": "김연의",
+    "소속/역할": "경영지원팀(팀장)",
+    "시간대": "12:00 ~ 13:40",
+    "하는 일": "걷기 출발 지점 관리, 단체 사진 촬영 지원, 기관별 출발 간격 조정 후 본부 복귀",
+    "동행하는 사람": "제승연",
+    "비고": "출발 지점 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "제승연",
+    "소속/역할": "경영지원팀",
+    "시간대": "12:00 ~ 13:40",
+    "하는 일": "걷기 코스 안내 및 기관별 순차 출발 지원 (60~90초 간격)",
+    "동행하는 사람": "김연의",
+    "비고": "코스 안내",
+    "Source": "1"
+  },
+  {
+    "성명": "박영균",
+    "소속/역할": "평생교육팀(자립신규)",
+    "시간대": "12:00 ~ 13:40",
+    "하는 일": "1번 미션 장소(병풍폭포)에서 OX퀴즈 진행 및 사진 촬영, 기관 통과 공유",
+    "동행하는 사람": "이윤수",
+    "비고": "병풍폭포 미션",
+    "Source": "1"
+  },
+  {
+    "성명": "이윤수",
+    "소속/역할": "우리동네",
+    "시간대": "12:00 ~ 13:40",
+    "하는 일": "1번 미션 장소(병풍폭포)에서 OX퀴즈 진행 보조 및 코스 안내",
+    "동행하는 사람": "박영균",
+    "비고": "병풍폭포 미션",
+    "Source": "1"
+  },
+  {
+    "성명": "김선희",
+    "소속/역할": "우리동네(팀장)",
+    "시간대": "12:00 ~ 13:40",
+    "하는 일": "2번 미션 장소(하트벤치)에서 사진 포즈 제비뽑기 미션 진행, 완료 후 본부 복귀",
+    "동행하는 사람": "이혜숙",
+    "비고": "하트벤치 미션",
+    "Source": "1"
+  },
+  {
+    "성명": "김신중",
+    "소속/역할": "우리동네",
+    "시간대": "12:00 ~ 13:40",
+    "하는 일": "반환점에서 생수 전달 및 마지막 기관 통과 확인 후 차량으로 복귀 지원",
+    "동행하는 사람": "한문호",
+    "비고": "반환점 관리 / 스타리아 운전",
+    "Source": "1"
+  },
+  {
+    "성명": "양주봉",
+    "소속/역할": "평생교육팀(사업담당)",
+    "시간대": "12:15 ~ 12:40",
+    "하는 일": "직원 2차 식사(산들애) 총괄 및 자원봉사자, 의료진 식사 지원",
+    "동행하는 사람": "서해숙, 유승주, 강수인, 남용우 등",
+    "비고": "식사 관리",
+    "Source": "1"
+  },
+  {
+    "성명": "강수인",
+    "소속/역할": "평생교육팀(청년인턴)",
+    "시간대": "12:40 ~ 13:40",
+    "하는 일": "미션 코스에서 전달받은 사진 포토 프린터로 기관별 인쇄 및 봉투 담기",
+    "동행하는 사람": "박슬기",
+    "비고": "사진 인화 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "박슬기",
+    "소속/역할": "우리동네",
+    "시간대": "12:40 ~ 13:40",
+    "하는 일": "미션 코스 사진 수신 및 포토 프린터 2대를 이용한 기관별 출력",
+    "동행하는 사람": "강수인",
+    "비고": "사진 인화 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "서해숙",
+    "소속/역할": "평생교육팀(팀장)",
+    "시간대": "13:00 ~ 13:30",
+    "하는 일": "사물놀이 공연 지원 (총 11명 악기 확인 및 무대 리허설 조율)",
+    "동행하는 사람": "사물놀이 팀원, 음향 업체",
+    "비고": "공연 총괄",
+    "Source": "1"
+  },
+  {
+    "성명": "양주봉",
+    "소속/역할": "평생교육팀(사업담당)",
+    "시간대": "14:00 ~ 14:15",
+    "하는 일": "폐회식 사회 진행 및 폐회 선언",
+    "동행하는 사람": "조재현, 김선희",
+    "비고": "사회자",
+    "Source": "1"
+  },
+  {
+    "성명": "조재현",
+    "소속/역할": "경영지원팀",
+    "시간대": "14:00 ~ 14:15",
+    "하는 일": "폐회식 및 사물놀이 공연 사진/영상 촬영",
+    "동행하는 사람": "양주봉, 김선희",
+    "비고": "사진촬영 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "강주연",
+    "소속/역할": "자립생활팀(팀장)",
+    "시간대": "14:30 ~ 15:20",
+    "하는 일": "순창 지역 참여자 귀가 인솔 (스타리아 또는 코나 탑승)",
+    "동행하는 사람": "순창 참여자",
+    "비고": "귀가 인솔",
+    "Source": "1"
+  },
+  {
+    "성명": "박영균",
+    "소속/역할": "평생교육팀(자립신규)",
+    "시간대": "15:20 ~ 15:50",
+    "하는 일": "복지관 복귀 인원 수송 (PV5 운전)",
+    "동행하는 사람": "탁선희, 서해숙, 양주봉, 강수인",
+    "비고": "운전 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "김신중",
+    "소속/역할": "우리동네",
+    "시간대": "15:20 ~ 15:50",
+    "하는 일": "복지관 복귀 인원 수송 (스타리아 운전)",
+    "동행하는 사람": "김연의, 유승주, 조재현, 제승연, 김선희, 남용우, 한문호",
+    "비고": "운전 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "박슬기",
+    "소속/역할": "우리동네",
+    "시간대": "15:20 ~ 15:50",
+    "하는 일": "복지관 복귀 인원 수송 (스파크 운전)",
+    "동행하는 사람": "이윤수, 강주연",
+    "비고": "운전 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "양주봉",
+    "소속/역할": "평생교육팀(사업담당)",
+    "시간대": "~ 07:00",
+    "하는 일": "결제카드(복지관, 자부담, 도협회 총 3개) 지참 및 물품 확인, 직원 차량 탑승 준비",
+    "동행하는 사람": "전직원",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "박슬기",
+    "소속/역할": "우리동네",
+    "시간대": "07:20 ~ 09:30",
+    "하는 일": "팝콘 부스, 시원한 음료 부스, 안전 부스(구급함 및 쉼터) 설치 상태 확인",
+    "동행하는 사람": "Not in source",
+    "비고": "음료/안전 부스 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "서해숙",
+    "소속/역할": "평생교육팀(팀장)",
+    "시간대": "07:20 ~ 09:30",
+    "하는 일": "본부 설치 확인(답례품, 포토프린터, 참여자 명단, 피켓, 부채 등)",
+    "동행하는 사람": "Not in source",
+    "비고": "본부 운영 물품 확인",
+    "Source": "1"
+  },
+  {
+    "성명": "박영균",
+    "소속/역할": "평생교육팀(자립신규)",
+    "시간대": "07:45 ~ 08:40",
+    "하는 일": "복지관 물건 옮기기 지원 (스타리아 연계)",
+    "동행하는 사람": "김신중, 제승연, 이윤수",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "이윤수",
+    "소속/역할": "우리동네",
+    "시간대": "07:45 ~ 08:40",
+    "하는 일": "복지관 물건 옮기기 지원 (스타리아 연계)",
+    "동행하는 사람": "김신중, 제승연, 박영균",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "강수인",
+    "소속/역할": "평생교육팀(청년인턴)",
+    "시간대": "09:30 ~ 10:00",
+    "하는 일": "행사장 내 기관별 피켓 배치 및 내빈 자리(성명, 직책 표시) 배치",
+    "동행하는 사람": "박슬기, 유승주, 김주현",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "김주현",
+    "소속/역할": "경영지원팀(근로지원)",
+    "시간대": "09:30 ~ 10:00",
+    "하는 일": "행사장 내 기관별 피켓 및 내빈 자리 배치 지원",
+    "동행하는 사람": "박슬기, 강수인, 유승주",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "박슬기",
+    "소속/역할": "우리동네",
+    "시간대": "09:30 ~ 10:00",
+    "하는 일": "행사장 기관별 피켓 및 무대 앞 내빈 좌석 배치",
+    "동행하는 사람": "강수인, 유승주, 김주현",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "유승주",
+    "소속/역할": "경영지원팀",
+    "시간대": "09:30 ~ 10:00",
+    "하는 일": "행사장 내 기관별 피켓 및 내빈 자리 배치 지원",
+    "동행하는 사람": "박슬기, 강수인, 김주현",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "제승연",
+    "소속/역할": "경영지원팀",
+    "시간대": "09:50 ~ 11:00",
+    "하는 일": "대형 주차장 안내 및 차량 유도, 종료 후 1차 식사 이동",
+    "동행하는 사람": "Not in source",
+    "비고": "고창, 군산 차량 도착 대응",
+    "Source": "1"
+  },
+  {
+    "성명": "김주현",
+    "소속/역할": "경영지원팀(근로지원)",
+    "시간대": "10:00 ~ 11:00",
+    "하는 일": "내빈 및 14개 기관별 도착 인원 확인 지원",
+    "동행하는 사람": "탁선희, 서해숙, 박슬기, 유승주",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "박슬기",
+    "소속/역할": "우리동네",
+    "시간대": "10:00 ~ 11:00",
+    "하는 일": "내빈 및 도착 인원 확인 보조",
+    "동행하는 사람": "탁선희, 서해숙, 유승주, 김주현",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "서해숙",
+    "소속/역할": "평생교육팀(팀장)",
+    "시간대": "10:00 ~ 11:00",
+    "하는 일": "내빈 및 14개 기관별 도착 인원 확인",
+    "동행하는 사람": "탁선희, 박슬기, 유승주, 김주현",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "유승주",
+    "소속/역할": "경영지원팀",
+    "시간대": "10:00 ~ 11:00",
+    "하는 일": "내빈 및 기관별 도착 인원 확인 지원",
+    "동행하는 사람": "탁선희, 서해숙, 박슬기, 김주현",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "탁선희",
+    "소속/역할": "사무국장",
+    "시간대": "10:00 ~ 11:00",
+    "하는 일": "주요 내빈 및 14개 복지관 참여 인원 확인",
+    "동행하는 사람": "서해숙, 박슬기, 유승주, 김주현",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "김선희",
+    "소속/역할": "우리동네(팀장)",
+    "시간대": "10:30 ~ 11:05",
+    "하는 일": "개회식 진행 지원 및 마이크 전달",
+    "동행하는 사람": "양주봉, 조재현",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "강수인",
+    "소속/역할": "평생교육팀(청년인턴)",
+    "시간대": "11:00 ~ 12:00",
+    "하는 일": "팝콘 및 음료 부스 1차 운영 (500인분 준비)",
+    "동행하는 사람": "최은경, 남용우",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "남용우",
+    "소속/역할": "장애인 일자리",
+    "시간대": "11:00 ~ 12:00",
+    "하는 일": "팝콘 부스 1차 운영 지원",
+    "동행하는 사람": "강수인, 최은경",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "최은경",
+    "소속/역할": "자원봉사자",
+    "시간대": "11:00 ~ 12:00",
+    "하는 일": "팝콘 및 음료 부스 1차 운영",
+    "동행하는 사람": "강수인, 남용우",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "양주봉",
+    "소속/역할": "평생교육팀(사업담당)",
+    "시간대": "11:00 ~ 11:50",
+    "하는 일": "일송정, 강천풍경 식당 담당 및 인원 관리",
+    "동행하는 사람": "Not in source",
+    "비고": "2개 식당 담당",
+    "Source": "1"
+  },
+  {
+    "성명": "유승주",
+    "소속/역할": "경영지원팀",
+    "시간대": "11:00 ~ 11:50",
+    "하는 일": "산들애 식당 담당 및 인원 관리",
+    "동행하는 사람": "김주현",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "김주현",
+    "소속/역할": "경영지원팀(근로지원)",
+    "시간대": "11:00 ~ 11:50",
+    "하는 일": "산들애 식당 담당 보조",
+    "동행하는 사람": "유승주",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "김연의",
+    "소속/역할": "경영지원팀(팀장)",
+    "시간대": "11:10 ~ 11:40",
+    "하는 일": "산들애에서 직원 1차 식사 후 강천산 입구로 이동",
+    "동행하는 사람": "제승연",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "제승연",
+    "소속/역할": "경영지원팀",
+    "시간대": "11:10 ~ 11:40",
+    "하는 일": "산들애에서 직원 1차 식사 후 강천산 입구로 이동",
+    "동행하는 사람": "김연의",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "강수인",
+    "소속/역할": "평생교육팀(청년인턴)",
+    "시간대": "12:00 ~ 12:10",
+    "하는 일": "매표소 입구에서 참여자 대상 1인 1개 생수 제공",
+    "동행하는 사람": "서해숙, 양주봉",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "서해숙",
+    "소속/역할": "평생교육팀(팀장)",
+    "시간대": "12:00 ~ 12:10",
+    "하는 일": "매표소 입구에서 참여자 대상 생수 배부",
+    "동행하는 사람": "양주봉, 강수인",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "양주봉",
+    "소속/역할": "평생교육팀(사업담당)",
+    "시간대": "12:00 ~ 12:10",
+    "하는 일": "매표소 입구 생수 배부 총괄 및 지원",
+    "동행하는 사람": "서해숙, 강수인",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "한문호",
+    "소속/역할": "장애인 일자리",
+    "시간대": "12:00 ~ 13:40",
+    "하는 일": "반환점 사진 촬영 지원 및 생수 전달 보조, 물건 정리 후 복귀",
+    "동행하는 사람": "김신중",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "김도경",
+    "소속/역할": "자원봉사자",
+    "시간대": "13:20 ~ 14:00",
+    "하는 일": "음료 부스 2차 운영 지원 (냉커피, 복숭아티 제공)",
+    "동행하는 사람": "이혜숙, 문영숙",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "문영숙",
+    "소속/역할": "자원봉사자",
+    "시간대": "13:20 ~ 14:00",
+    "하는 일": "음료 부스 2차 운영 지원",
+    "동행하는 사람": "이혜숙, 김도경",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "이혜숙",
+    "소속/역할": "자원봉사자(한국부인회 부회장)",
+    "시간대": "13:20 ~ 14:00",
+    "하는 일": "음료 부스 2차 운영 지원",
+    "동행하는 사람": "문영숙, 김도경",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "김연의",
+    "소속/역할": "경영지원팀(팀장)",
+    "시간대": "13:20 ~ 14:00",
+    "하는 일": "참여자 대상 아이스크림(설레임) 전달 (매표소 안쪽)",
+    "동행하는 사람": "남용우, 탁선희",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "남용우",
+    "소속/역할": "장애인 일자리",
+    "시간대": "13:20 ~ 14:00",
+    "하는 일": "참여자 아이스크림 전달 보조",
+    "동행하는 사람": "김연의, 탁선희",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "탁선희",
+    "소속/역할": "사무국장",
+    "시간대": "13:20 ~ 14:00",
+    "하는 일": "참여자 아이스크림 전달 보조",
+    "동행하는 사람": "김연의,남용우",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "김선희",
+    "소속/역할": "우리동네(팀장)",
+    "시간대": "14:00 ~ 14:15",
+    "하는 일": "폐회식 진행 지원 및 마이크 전달",
+    "동행하는 사람": "양주봉, 조재현",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "전직원",
+    "소속/역할": "복지관 인력",
+    "시간대": "14:20 ~ 14:30",
+    "하는 일": "버스 주차장 입구에서 참여 기관 배웅 인사 진행",
+    "동행하는 사람": "정경호 관장 외 15명",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "서해숙",
+    "소속/역할": "평생교육팀(팀장)",
+    "시간대": "14:30 ~ 15:20",
+    "하는 일": "PV5 이용하여 사물놀이 악기 국악원 반납",
+    "동행하는 사람": "Not in source",
+    "비고": "악기 반납",
+    "Source": "1"
+  },
+  {
+    "성명": "남용우",
+    "소속/역할": "장애인 일자리",
+    "시간대": "09:50 ~ 11:00",
+    "하는 일": "중/소형 주차장 2곳 안내 및 통제 (유도봉 사용), 종료 후 본부 복귀",
+    "동행하는 사람": "Not in source",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "한문호",
+    "소속/역할": "장애인 일자리",
+    "시간대": "09:50 ~ 11:00",
+    "하는 일": "매표소 앞 주차장 입구 통제 및 장애인 차량 주차 구역 안내, 종료 후 식사 이동",
+    "동행하는 사람": "Not in source",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "김도경",
+    "소속/역할": "자원봉사자",
+    "시간대": "10:30 ~ 12:00",
+    "하는 일": "행사장 뒤편 남자/여자 전용 화장실 입구 안내",
+    "동행하는 사람": "Not in source",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "지미라",
+    "소속/역할": "자원봉사자(한국부인회 회장)",
+    "시간대": "10:30 ~ 12:00",
+    "하는 일": "매표소 안 남/여 화장실 안내",
+    "동행하는 사람": "Not in source",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "서해숙",
+    "소속/역할": "평생교육팀(팀장)",
+    "시간대": "11:00 ~ 11:50",
+    "하는 일": "김용순 본가 식당 담당 및 인원 관리",
+    "동행하는 사람": "Not in source",
+    "비고": "Not in source",
+    "Source": "1"
+  },
+  {
+    "성명": "문영숙",
+    "소속/역할": "자원봉사자",
+    "시간대": "12:00 ~ 13:40",
+    "하는 일": "강천사 입구 화장실 안내 및 위치 설명",
+    "동행하는 사람": "Not in source",
+    "비고": "Not in source",
+    "Source": "1"
+  }
+];
 
-    function convertGoogleDriveLink(url) {
-      if (!url) return '';
-      const fileIdMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
-      if (fileIdMatch && fileIdMatch[1]) {
-        return `https://drive.google.com/thumbnail?id=${fileIdMatch[1]}&sz=w800`;
-      }
-      return url;
-    }
+    const nameGrid = document.getElementById('nameGrid');
+    const contentScreen = document.getElementById('contentScreen');
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    const selectedNameDisplay = document.getElementById('selectedNameDisplay');
+    const viewName = document.getElementById('viewName');
+    const viewRole = document.getElementById('viewRole');
+    const viewTimeline = document.getElementById('viewTimeline');
+    const currentTimeDisplay = document.getElementById('currentTime');
+    const bottomSheet = document.getElementById('bottomSheet');
+    const overlay = document.getElementById('overlay');
 
-    function getFallbackAvatar(gender) {
-      const color = gender === '남' ? '#3b82f6' : '#ec4899';
-      const secondaryColor = gender === '남' ? 'text-blue-400' : 'text-pink-400';
-      return `
-        <svg class="w-3/4 h-3/4 ${secondaryColor}" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="64" cy="64" r="62" fill="#1e293b" stroke="${color}" stroke-width="3"/>
-          <path d="M64 80C44.1177 80 28 96.1177 28 116H100C100 96.1177 83.8823 80 64 80Z" fill="${color}" opacity="0.8"/>
-          <circle cx="64" cy="46" r="22" fill="${color}"/>
-          <path d="M50 42C50 42 56 36 64 36C72 36 78 42 78 42" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-      `;
-    }
+    const commonTasks = rawData.filter(item => item.성명 === '전직원');
+    const uniqueNames = [...new Set(rawData.map(item => item.성명))]
+        .filter(name => name !== '전직원')
+        .sort();
 
-    function parseConsultationText(text) {
-      if (!text) return { info: '', desire: '확인된 욕구 없음' };
-      const parts = text.split(/욕구:/);
-      return {
-        info: parts[0].trim(),
-        desire: parts[1] ? parts[1].trim() : '직접적인 욕구 기술 없음 (상담 내용 참조)'
-      };
-    }
+    let currentSelectedName = null;
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const slideContainer = document.getElementById('slideContainer');
-      
-      // 1. 표지 슬라이드
-      const coverSlideHtml = `
-        <div class="swiper-slide h-full w-full bg-gradient-to-br from-brand-950 via-slate-900 to-brand-900 px-6 py-20 flex flex-col justify-center items-center text-center relative overflow-hidden">
-          <div class="absolute top-0 left-0 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-          <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
-          <div class="z-10 max-w-4xl px-4">
-            <div class="inline-flex items-center space-x-2 bg-brand-800/80 border border-brand-600/50 px-4 py-2 rounded-full mb-6 shadow-lg">
-              <span class="w-2.5 h-2.5 rounded-full bg-blue-400 animate-pulse"></span>
-              <span class="text-xs md:text-sm font-semibold tracking-wider text-brand-200 uppercase">순창군장애인복지관 우리동네사례관리팀</span>
-            </div>
-            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight drop-shadow-md">
-              5월 신규 재가장애인을 <br class="sm:hidden" /> 소개합니다.
-            </h1>
-            <p class="text-lg md:text-xl text-brand-300 font-light mb-12 max-w-2xl mx-auto leading-relaxed">5월에 발굴된 신규 재가장애인 분들을<br>소개합니다!</p>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto text-left">
-              <div class="bg-brand-900/60 border border-brand-800 p-4 rounded-xl shadow-lg">
-                <span class="text-xs text-brand-400 block mb-1">총 신규 등록</span>
-                <span class="text-2xl font-bold text-blue-400">6 명</span>
-              </div>
-              <div class="bg-brand-900/60 border border-brand-800 p-4 rounded-xl shadow-lg">
-                <span class="text-xs text-brand-400 block mb-1">성별 구성</span>
-                <span class="text-2xl font-bold text-pink-400">여 4 <span class="text-brand-600">/</span> <span class="text-blue-400">남 2</span></span>
-              </div>
-              <div class="bg-brand-900/60 border border-brand-800 p-4 rounded-xl shadow-lg">
-                <span class="text-xs text-brand-400 block mb-1">평균 연령</span>
-                <span class="text-2xl font-bold text-teal-400">70.6 세</span>
-              </div>
-              <div class="bg-brand-900/60 border border-brand-800 p-4 rounded-xl shadow-lg">
-                <span class="text-xs text-brand-400 block mb-1">장애정도</span>
-                <span class="text-2xl font-bold text-rose-400">심한 장애 3 <span class="text-brand-600">/</span> <span class="text-emerald-400">심하지 않은<br>장애 3</span></span>
-              </div>
-            </div>
-            <div class="mt-12 flex flex-col items-center justify-center text-brand-400 text-xs animate-bounce">
-              <span>아래 버튼 또는 키보드 방향키(→)를 누르세요</span>
-              <svg class="w-5 h-5 mt-2" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 13l-7 7-7-7m14-6l-7 7-7-7"/></svg>
-            </div>
-          </div>
-        </div>
-      `;
-      slideContainer.innerHTML = coverSlideHtml;
-
-      // 2. 개별 데이터 슬라이드
-      rawData.forEach((item) => {
-        const parsed = parseConsultationText(item['상담내용']);
-        const isSevere = item['장애정도'] === '심한 장애';
-        const genderColor = item['성별'] === '남' ? 'text-blue-400 bg-blue-950/40 border-blue-800' : 'text-pink-400 bg-pink-950/40 border-pink-800';
-        
-        let welfareBadgeClass = "";
-        if (item['수급'] === '수급') welfareBadgeClass = "bg-rose-500/20 text-rose-300 border-rose-500/40";
-        else if (item['수급'] === '차상위') welfareBadgeClass = "bg-amber-500/20 text-amber-300 border-amber-500/40";
-        else welfareBadgeClass = "bg-slate-700/30 text-slate-300 border-slate-600/40";
-
-        const severityBadgeClass = isSevere ? "bg-red-500/20 text-red-300 border-red-500/40" : "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
-        const severityIcon = isSevere ? "❗" : "✅";
-        const driveDirectUrl = convertGoogleDriveLink(item['사진 링크']);
-
-        const slideHtml = `
-          <div class="swiper-slide h-full w-full bg-brand-950 px-4 md:px-12 py-24 flex items-center justify-center">
-            <div class="w-full max-w-6xl bg-brand-900/40 border border-brand-800/80 rounded-2xl p-5 md:p-8 shadow-2xl backdrop-blur-md flex flex-col md:flex-row gap-6 md:gap-10 h-auto md:h-[calc(100vh-140px)] overflow-y-auto md:overflow-hidden">
-              <div class="w-full md:w-[55%] flex flex-col justify-between border-b md:border-b-0 md:border-r border-brand-800 pb-4 md:pb-0 md:pr-8 h-full">
-                <div class="flex justify-between items-center mb-2">
-                  <span class="bg-brand-800 text-brand-300 text-xs font-bold px-3 py-1.5 rounded-lg border border-brand-700 tracking-wider">CASE #${item['연번']}</span>
-                  <span class="text-xs text-brand-400">상담일자: ${item['상담일자']}</span>
-                </div>
-                <div class="flex flex-col items-center text-center my-auto py-1">
-                  <a href="${item['사진 링크']}" target="_blank" class="relative w-48 h-48 sm:w-64 sm:h-64 md:w-[38vh] md:h-[38vh] lg:w-[46vh] lg:h-[46vh] xl:w-[50vh] xl:h-[50vh] max-w-full rounded-2xl border-2 border-brand-700/60 overflow-hidden mb-3.5 bg-brand-950/80 flex items-center justify-center shadow-2xl group cursor-pointer transition-all hover:border-blue-500 shrink-0">
-                    <img src="${driveDirectUrl}" alt="${item['이름']}" class="w-full h-full object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
-                    <div class="hidden w-full h-full items-center justify-center">${getFallbackAvatar(item['성별'])}</div>
-                    <div class="absolute inset-0 bg-brand-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity text-xs text-white">
-                      <span class="bg-brand-900/90 border border-brand-700 px-2.5 py-1 rounded-md">원본 보기 🔍</span>
-                    </div>
-                  </a>
-                  <div class="space-y-1 mb-2.5">
-                    <h2 class="text-3xl font-extrabold text-white flex items-center justify-center gap-2">이름: ${item['이름']} <span class="text-sm font-medium text-brand-400">(연령: ${item['연령']}세)</span></h2>
-                    <p class="text-sm text-brand-300 font-medium tracking-wide">거주지역 : 순창군 <span class="text-blue-400 font-bold">${item['읍, 면']}</span></p>
-                  </div>
-                  <div class="flex flex-wrap gap-1.5 justify-center max-w-md">
-                    <span class="text-xs font-semibold px-2.5 py-1 rounded-md border ${genderColor} flex items-center gap-1 shadow-sm">${item['성별'] === '남' ? '♂️ 남성' : '♀️ 여성'}</span>
-                    <span class="text-xs font-semibold px-2.5 py-1 rounded-md border bg-slate-800/80 text-brand-200 border-brand-700 shadow-sm">♿ ${item['장애명']} 장애</span>
-                    <span class="text-xs font-semibold px-2.5 py-1 rounded-md border ${severityBadgeClass} flex items-center gap-1 shadow-sm">${severityIcon} ${item['장애정도']}</span>
-                    <span class="text-xs font-semibold px-2.5 py-1 rounded-md border ${welfareBadgeClass} shadow-sm">🏷️ 수급구분: ${item['수급']}</span>
-                  </div>
-                </div>
-                <div class="bg-brand-950/50 border border-brand-800/80 rounded-xl p-3 mt-2 space-y-1 text-xs text-brand-300">
-                  <div class="flex justify-between"><span>중복장애 여부</span><span class="font-medium text-slate-100">${item['중복장애'] || '없음'}</span></div>
-                  <div class="flex justify-between"><span>최초 접수 상담자</span><span class="font-medium text-slate-100">${item['최초 접수자']}</span></div>
-                </div>
-              </div>
-              <div class="w-full md:w-[45%] flex flex-col h-full overflow-hidden justify-between mt-6 md:mt-0">
-                <div class="flex-1 flex flex-col mb-4 overflow-hidden min-h-[200px]">
-                  <div class="flex items-center space-x-2 text-brand-300 text-sm font-bold mb-2 tracking-wider">
-                    <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                    <span>1. 상세 상담 및 관찰내용</span>
-                  </div>
-                  <div class="flex-1 bg-brand-950/60 border border-brand-800/50 rounded-xl p-4 md:p-5 overflow-y-auto custom-scrollbar text-slate-200 text-base leading-relaxed whitespace-pre-wrap font-normal">${parsed.info}</div>
-                </div>
-                <div class="h-1/3 min-h-[140px] flex flex-col">
-                  <div class="flex items-center space-x-2 text-amber-300 text-sm font-bold mb-2 tracking-wider">
-                    <svg class="w-5 h-5 text-amber-400 animate-pulse" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    <span>2. 핵심 당사자 욕구 & 연계 조치</span>
-                  </div>
-                  <div class="flex-1 bg-gradient-to-r from-amber-950/40 to-brand-950/80 border border-amber-900/40 rounded-xl p-4 overflow-y-auto custom-scrollbar text-amber-200 text-base leading-relaxed font-semibold">${parsed.desire}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-        slideContainer.innerHTML += slideHtml;
-      });
-
-      // 3. Swiper 초기화
-      const totalSlides = rawData.length + 1;
-      document.getElementById('totalNumber').innerText = totalSlides;
-
-      const swiper = new Swiper(".mySwiper", {
-        direction: "horizontal",
-        loop: false,
-        grabCursor: true,
-        keyboard: { enabled: true, onlyInViewport: true },
-        speed: 500,
-        effect: "slide",
-        observer: true,
-        observeParents: true,
-      });
-
-      function updateNavigation() {
-        const activeIdx = swiper.activeIndex + 1;
-        document.getElementById('currentNumber').innerText = activeIdx;
-        document.getElementById('prevBtn').disabled = swiper.isBeginning;
-        document.getElementById('nextBtn').disabled = swiper.isEnd;
-      }
-
-      swiper.on("slideChange", updateNavigation);
-      updateNavigation();
-
-      document.getElementById('prevBtn').addEventListener('click', () => swiper.slidePrev());
-      document.getElementById('nextBtn').addEventListener('click', () => swiper.slideNext());
+    // 이름 그리드 생성
+    uniqueNames.forEach(name => {
+        const btn = document.createElement('div');
+        btn.className = 'name-btn';
+        btn.textContent = name;
+        btn.onclick = () => selectPerson(name);
+        nameGrid.appendChild(btn);
     });
-  </script>
+
+    function toggleSheet(show) {
+        bottomSheet.classList.toggle('show', show);
+        overlay.style.display = show ? 'block' : 'none';
+    }
+
+    function selectPerson(name) {
+        currentSelectedName = name;
+        selectedNameDisplay.textContent = name;
+        
+        // 버튼 활성화 표시
+        document.querySelectorAll('.name-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.textContent === name);
+        });
+
+        toggleSheet(false);
+        welcomeScreen.style.display = 'none';
+        contentScreen.style.display = 'block';
+        
+        refreshView();
+    }
+
+    function updateTime() {
+        const now = new Date();
+        const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        currentTimeDisplay.textContent = timeStr;
+        if (currentSelectedName) refreshView();
+    }
+
+    setInterval(updateTime, 10000);
+    updateTime();
+
+    function refreshView() {
+        if (!currentSelectedName) return;
+
+        const personSpecificData = rawData.filter(item => item.성명 === currentSelectedName);
+        const combinedData = [...personSpecificData, ...commonTasks];
+        
+        combinedData.sort((a, b) => {
+            const getStartTime = (timeStr) => {
+                const match = timeStr.match(/\d{2}:\d{2}/);
+                return match ? match[0] : '00:00';
+            };
+            return getStartTime(a.시간대).localeCompare(getStartTime(b.시간대));
+        });
+
+        viewName.textContent = currentSelectedName;
+        viewRole.textContent = personSpecificData[0]['소속/역할'];
+        viewTimeline.innerHTML = '';
+
+        const now = new Date();
+        const currentTimeVal = now.getHours() * 60 + now.getMinutes();
+
+        let activeIndex = -1;
+        let lastFinishedIndex = -1;
+
+        const processedData = combinedData.map((task, index) => {
+            const timeRange = task.시간대.split('~').map(t => t.trim());
+            let start = 0, end = 1440;
+
+            if (timeRange.length === 2) {
+                const [sH, sM] = timeRange[0].split(':').map(Number);
+                const [eH, eM] = timeRange[1].split(':').map(Number);
+                if (!isNaN(sH)) start = sH * 60 + sM;
+                if (!isNaN(eH)) end = eH * 60 + eM;
+            } else if (task.시간대.includes('~')) {
+                const t = task.시간대.replace('~', '').trim();
+                const [h, m] = t.split(':').map(Number);
+                if (task.시간대.startsWith('~')) { end = h * 60 + m; }
+                else { start = h * 60 + m; }
+            }
+
+            const isActive = currentTimeVal >= start && currentTimeVal < end;
+            const isFinished = currentTimeVal >= end;
+            if (isActive) activeIndex = index;
+            if (isFinished) lastFinishedIndex = index;
+
+            return { ...task, isActive, start, end };
+        });
+
+        if (activeIndex === -1 && lastFinishedIndex === processedData.length - 1) {
+            activeIndex = processedData.length - 1;
+        }
+
+        processedData.forEach((task, index) => {
+            const isCommon = task.성명 === '전직원';
+            const isNow = index === activeIndex;
+            
+            const card = document.createElement('div');
+            card.className = `task-card ${isCommon ? 'common' : ''} ${isNow ? 'now' : ''}`;
+            
+            card.innerHTML = `
+                <div class="badge-container">
+                    ${isCommon ? '<span class="badge badge-common">공통</span>' : ''}
+                    ${isNow ? '<span class="badge badge-now">현재 진행</span>' : ''}
+                </div>
+                <div class="time-label"><span>⏰</span> ${task['시간대']}</div>
+                <div class="row">
+                    <span class="label">하는 일</span>
+                    <div class="value">${task['하는 일']}</div>
+                </div>
+                <div class="row">
+                    <span class="label">동행자</span>
+                    <div class="value">${task['동행하는 사람']}</div>
+                </div>
+                <div class="row">
+                    <span class="label">비고</span>
+                    <div class="value">${task['비고']}</div>
+                </div>
+            `;
+            viewTimeline.appendChild(card);
+        });
+    }
+</script>
+
 </body>
 </html>
